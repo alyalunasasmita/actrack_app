@@ -1,0 +1,243 @@
+// Force white background and light mode
+ion-content.profile-bg {
+  --background: #ffffff !important;
+  
+  @media (prefers-color-scheme: dark) {
+    --background: #ffffff !important;
+  }
+}
+
+.clean-wrapper {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+}
+
+.profile-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+// Settings Menu Button
+.menu-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  margin: 0;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --border-radius: 30px;
+  --background: rgba(0, 0, 0, 0.05);
+  --color: #5a5a5a;
+  z-index: 10;
+  
+  ion-icon {
+    font-size: 24px;
+  }
+  
+  &:active {
+    transform: scale(0.95);
+    --background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Profile Header
+.profile-header {
+  text-align: center;
+  margin-bottom: 32px;
+  
+  .avatar-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+    
+    .avatar-icon {
+      font-size: 100px;
+      color: #3880ff;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      padding: 8px;
+    }
+  }
+  
+  .profile-info {
+    h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0 0 8px 0;
+    }
+    
+    p {
+      font-size: 14px;
+      color: #7a7a7a;
+      margin: 0;
+    }
+  }
+}
+
+// Profile Card
+.profile-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 24px;
+  
+  .info-row {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #eeeeee;
+    transition: background 0.2s ease;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    &:active {
+      background: #f9f9f9;
+    }
+    
+    .row-icon {
+      font-size: 24px;
+      color: #667eea;
+      margin-right: 16px;
+      flex-shrink: 0;
+    }
+    
+    .info-content {
+      flex: 1;
+      
+      .info-label {
+        display: block;
+        font-size: 12px;
+        color: #7a7a7a;
+        margin-bottom: 4px;
+      }
+      
+      .info-value {
+        display: block;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+    }
+  }
+}
+
+// Stats Summary
+.stats-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  
+  .stat-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    
+    ion-icon {
+      font-size: 32px;
+      color: #ffffff;
+    }
+    
+    .stat-detail {
+      display: flex;
+      flex-direction: column;
+      
+      .stat-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+      
+      .stat-label {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+    }
+  }
+  
+  .stat-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+// Responsive for small screens
+@media (max-height: 700px) {
+  .clean-wrapper {
+    justify-content: flex-start;
+    padding-top: 60px;
+  }
+  
+  .profile-header {
+    margin-bottom: 20px;
+    
+    .avatar-container .avatar-icon {
+      font-size: 80px;
+    }
+    
+    .profile-info h2 {
+      font-size: 24px;
+    }
+  }
+  
+  .stats-summary {
+    padding: 16px;
+    
+    .stat-item ion-icon {
+      font-size: 28px;
+    }
+    
+    .stat-item .stat-detail .stat-value {
+      font-size: 20px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-container {
+    max-width: 100%;
+  }
+  
+  .profile-card .info-row {
+    padding: 14px 16px;
+    
+    .row-icon {
+      font-size: 20px;
+    }
+    
+    .info-content .info-value {
+      font-size: 14px;
+    }
+  }
+  
+  .stats-summary .stat-item {
+    gap: 8px;
+    
+    ion-icon {
+      font-size: 24px;
+    }
+    
+    .stat-detail .stat-value {
+      font-size: 20px;
+    }
+  }
+}

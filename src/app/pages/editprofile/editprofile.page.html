@@ -1,0 +1,51 @@
+<ion-content class="profile-bg">
+  <div class="clean-wrapper">
+    <div class="profile-container">
+      
+      <!-- Back Button -->
+      <div class="back-container">
+        <ion-icon name="arrow-back-outline" (click)="goBack()" class="back-icon"></ion-icon>
+      </div>
+
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <div class="avatar-container">
+          <ion-icon name="person-circle-outline" class="avatar-icon"></ion-icon>
+        </div>
+        <h2>Profile Saya</h2>
+        <p>Kelola informasi akun Anda</p>
+      </div>
+
+      <!-- Profile Form Card -->
+      <div class="profile-card">
+  <ion-item lines="none" class="profile-item">
+    <ion-icon name="person-outline" slot="start" class="item-icon"></ion-icon>
+    <ion-label position="stacked" class="profile-label">Nama Lengkap</ion-label>
+    <ion-input [(ngModel)]="profile.name" class="profile-input" placeholder="Masukkan nama"></ion-input>
+  </ion-item>
+
+  <ion-item lines="none" class="profile-item">
+    <ion-icon name="at-outline" slot="start" class="item-icon"></ion-icon>
+    <ion-label position="stacked" class="profile-label">Username</ion-label>
+    <ion-input [(ngModel)]="profile.username" class="profile-input" placeholder="Masukkan username"></ion-input>
+  </ion-item>
+
+  <div class="error-message" *ngIf="errorMessage">
+    <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div class="success-message" *ngIf="successMessage">
+    <ion-icon name="checkmark-circle-outline" class="success-icon"></ion-icon>
+    <span>{{ successMessage }}</span>
+  </div>
+
+  <ion-button expand="block" class="update-btn" (click)="updateProfile()" [disabled]="isSubmitting">
+    <ion-icon slot="start" [name]="isSubmitting ? 'hourglass-outline' : 'save-outline'"></ion-icon>
+    {{ isSubmitting ? 'Menyimpan...' : 'Update Profile' }}
+  </ion-button>
+</div>
+
+    </div>
+  </div>
+</ion-content>

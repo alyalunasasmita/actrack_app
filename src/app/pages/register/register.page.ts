@@ -1,0 +1,113 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiService } from '../../services/api/api.service';
+import { NavController } from '@ionic/angular';
+import { AlertsService } from 'src/app/services/alert/alerts';
+import { Authservices } from 'src/app/services/auth';
+
+
+@Component({
+  selector: 'app-register',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
+  standalone: false
+})
+export class RegisterPage implements OnInit {
+  name: string=''; 
+  username: string=''; 
+  password: string='';
+  showPassword: boolean = false;
+  passwordError: boolean = false;
+  passwordErrorMessage: string = '';
+  passwordStrength: string = ''; 
+  strengthText: string = '';
+  isLoading: boolean = false;
+
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private alert: AlertsService, 
+    private navCtrl : NavController, 
+    private auth : Authservices
+  ) { }
+
+  ngOnInit() {
+  }
+
+  register() {
+    const data = {
+      name : this.name,
+      username : this.username,
+      password : this.password,
+    };
+    this.isLoading = true
+    this.api.register(data).subscribe({
+      next: (res:any)=> {
+        this.alert.show('register berhasil, silahkan login'); 
+        this.isLoading = false;
+        this.router.navigateByUrl('/login'); 
+      }, 
+      error: (err) => {
+      this.isLoading = false;
+      this.alert.show(err.error.message, 'error'); 
+      }
+    });
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+  goToLogin() {
+    this.navCtrl.navigateForward('/login');
+  }
+
+  validatePassword() {
+    this.passwordError = false;
+    this.passwordErrorMessage = '';
+    
+    if (!this.password || this.password.length === 0) {
+      this.passwordStrength = '';
+      this.strengthText = '';
+      return;
+    }
+
+    if (this.password.length < 6) {
+      this.passwordError = true;
+      this.passwordErrorMessage = 'Password harus minimal 6 karakter';
+      this.passwordStrength = '';
+      this.strengthText = '';
+      return;
+    }
+
+    let strengthScore = 0;
+  
+    if (this.password.length >= 8) strengthScore++;
+    if (this.password.length >= 12) strengthScore++;
+    if (/[a-z]/.test(this.password)) strengthScore++;
+    if (/[A-Z]/.test(this.password)) strengthScore++;
+    if (/[0-9]/.test(this.password)) strengthScore++;
+    if (/[^A-Za-z0-9]/.test(this.password)) strengthScore++;
+
+    if (strengthScore <= 2) {
+      this.passwordStrength = 'weak';
+      this.strengthText = 'Password lemah';
+    } else if (strengthScore <= 4) {
+      this.passwordStrength = 'medium';
+      this.strengthText = 'Password sedang';
+    } else {
+      this.passwordStrength = 'strong';
+      this.strengthText = 'Password kuat';
+    }
+  }
+
+   isFormValid(): boolean {
+    const isNameValid = this.name && this.name.trim().length > 0;
+    const isUsernameValid = this.username && this.username.trim().length > 0;
+    const isPasswordValid = this.password && this.password.length >= 6;
+    
+    return !!(isNameValid && isUsernameValid && isPasswordValid);
+  }
+
+
+}

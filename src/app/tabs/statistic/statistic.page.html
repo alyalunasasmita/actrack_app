@@ -1,0 +1,62 @@
+<ion-content class="statistics-bg">
+  <div class="clean-wrapper">
+    <div class="statistics-container">
+      
+      <!-- Statistics Header -->
+      <div class="statistics-header">
+        <div class="header-icon">
+          <ion-icon name="bar-chart-outline"></ion-icon>
+        </div>
+        <h2>Statistik</h2>
+        <p>Ringkasan produktivitas Anda</p>
+      </div>
+
+      <!-- SUMMARY CARDS -->
+      <div class="stats-grid">
+        <ion-card class="stat-card">
+          <div class="card-icon">
+            <ion-icon name="document-text-outline"></ion-icon>
+          </div>
+          <ion-card-content>
+            <h2>{{ totalWorklogs }}</h2>
+            <p>Total Worklogs</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="stat-card">
+          <div class="card-icon">
+            <ion-icon name="checkbox-outline"></ion-icon>
+          </div>
+          <ion-card-content>
+            <h2>{{ totalTasks }}</h2>
+            <p>Total Tasks</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <!-- CHART -->
+      <ion-card class="chart-card">
+        <ion-card-header>
+          <div class="chart-header">
+            <ion-icon name="trending-up-outline" class="chart-icon"></ion-icon>
+            <ion-card-title>Produktivitas</ion-card-title>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <canvas #myChart></canvas>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- INSIGHT -->
+      <ion-card class="insight-card" *ngIf="bestDay">
+        <ion-card-content>
+          <div class="insight-content">
+            <ion-icon name="flame-outline" class="insight-icon"></ion-icon>
+            <span>Hari paling produktif: <b>{{ bestDay }}</b></span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,91 @@
+.popover-content {
+  --background: transparent;
+  --box-shadow: none;
+  overflow: visible; // Penting agar shadow tidak terpotong
+}
+
+.menu-container {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 6px;
+  min-width: 190px;
+  /* Shadow lembut ala iOS/Modern App */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  span {
+    flex: 1;
+  }
+
+  &:hover {
+    background: #f6f8f9;
+    color: #000;
+  }
+
+  &:active {
+    transform: scale(0.96);
+    background: #f0f2f3;
+  }
+}
+
+.divider {
+  height: 1px;
+  background: #f1f1f1;
+  margin: 6px 10px;
+}
+
+/* Styling Khusus Ikon dengan Background Tipis */
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  
+  ion-icon {
+    font-size: 18px;
+  }
+
+  &.edit {
+    color: #3880ff;
+    background: rgba(56, 128, 255, 0.1);
+  }
+
+  &.password {
+    color: #2dd36f;
+    background: rgba(45, 211, 111, 0.1);
+  }
+
+  &.delete {
+    color: #fd7e14; // Oranye untuk peringatan
+    background: rgba(253, 126, 20, 0.1);
+  }
+
+  &.logout-icon {
+    color: #eb445a; // Merah
+    background: rgba(235, 68, 90, 0.1);
+  }
+}
+
+/* State Khusus Logout */
+.logout {
+  color: #eb445a;
+  
+  &:hover {
+    background: #fff5f6;
+  }
+}

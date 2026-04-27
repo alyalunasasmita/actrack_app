@@ -1,0 +1,25 @@
+<ion-app>
+
+  <!-- ALERT GLOBAL -->
+  <div *ngIf="alert" class="alert-wrapper">
+
+    <div class="alert-box" [ngClass]="alert.type">
+
+      <div class="msg">
+        {{ alert.message }}
+      </div>
+
+      <!-- CONFIRM BUTTON -->
+      <div *ngIf="alert.mode === 'confirm'" class="actions">
+        <button class="cancel" (click)="cancel()">Batal</button>
+        <button class="ok" (click)="confirm()">Ya</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ROUTER -->
+  <ion-router-outlet></ion-router-outlet>
+
+</ion-app>

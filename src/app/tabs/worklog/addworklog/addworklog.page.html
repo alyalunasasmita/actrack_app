@@ -1,0 +1,127 @@
+<ion-content class="worklog-bg">
+  <div class="clean-wrapper">
+    <div class="worklog-container">
+      <!-- Header -->
+      <div class="worklog-header">
+        <ion-icon name="document-text-outline" class="header-icon"></ion-icon>
+        <h2>Buat Worklog Baru</h2>
+        <p>Catat aktivitas pekerjaan Anda hari ini</p>
+      </div>
+
+      <!-- Form Card -->
+      <div class="worklog-card">
+        <form (ngSubmit)="submit()">
+          <!-- Date -->
+          <div class="form-group">
+            <ion-item lines="none" class="form-item">
+              <ion-icon name="calendar-outline" slot="start" class="item-icon"></ion-icon>
+              <ion-label position="floating" class="form-label">Tanggal</ion-label>
+              <ion-datetime 
+                presentation="date" 
+                [(ngModel)]="form.date"
+                name="date"
+                class="custom-datetime"
+                placeholder="Pilih tanggal">
+              </ion-datetime>
+            </ion-item>
+          </div>
+
+          <!-- Activity -->
+          <div class="form-group">
+            <ion-item lines="none" class="form-item">
+              <ion-icon name="briefcase-outline" slot="start" class="item-icon"></ion-icon>
+              <ion-label position="floating" class="form-label">Aktivitas</ion-label>
+              <ion-textarea 
+                [(ngModel)]="form.activity"
+                name="activity"
+                rows="3"
+                class="custom-textarea"
+                placeholder="Masukkan aktivitas yang dilakukan">
+              </ion-textarea>
+            </ion-item>
+          </div>
+
+          <!-- Task Count -->
+          <div class="form-group">
+            <ion-item lines="none" class="form-item">
+              <ion-icon name="checkbox-outline" slot="start" class="item-icon"></ion-icon>
+              <ion-label position="floating" class="form-label">Jumlah Tugas</ion-label>
+              <ion-input 
+                [(ngModel)]="form.task_count"
+                name="task_count"
+                type="number"
+                class="custom-input"
+                placeholder="Masukkan jumlah tugas">
+              </ion-input>
+            </ion-item>
+          </div>
+
+          <!-- Time Start & End in one row -->
+          <div class="time-row">
+            <div class="time-col">
+              <ion-item lines="none" class="form-item">
+                <ion-icon name="time-outline" slot="start" class="item-icon"></ion-icon>
+                <ion-label position="floating" class="form-label">Mulai</ion-label>
+                <ion-datetime 
+                  presentation="time" 
+                  [(ngModel)]="form.start"
+                  name="start"
+                  class="custom-datetime"
+                  placeholder="--:--">
+                </ion-datetime>
+              </ion-item>
+            </div>
+
+            <div class="time-col">
+              <ion-item lines="none" class="form-item">
+                <ion-icon name="time-outline" slot="start" class="item-icon"></ion-icon>
+                <ion-label position="floating" class="form-label">Selesai</ion-label>
+                <ion-datetime 
+                  presentation="time" 
+                  [(ngModel)]="form.end"
+                  name="end"
+                  class="custom-datetime"
+                  placeholder="--:--">
+                </ion-datetime>
+              </ion-item>
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div class="form-group">
+            <ion-item lines="none" class="form-item">
+              <ion-icon name="create-outline" slot="start" class="item-icon"></ion-icon>
+              <ion-label position="floating" class="form-label">Catatan</ion-label>
+              <ion-textarea 
+                [(ngModel)]="form.notes"
+                name="notes"
+                rows="4"
+                class="custom-textarea"
+                placeholder="Tambahkan catatan penting (opsional)">
+              </ion-textarea>
+            </ion-item>
+          </div>
+
+          <!-- Error Message -->
+          <div class="error-message" *ngIf="errorMessage">
+            <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
+            <span>{{ errorMessage }}</span>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="button-group">
+            <ion-button expand="block" class="submit-btn" type="submit" [disabled]="isSubmitting">
+              <ion-icon slot="start" [name]="isSubmitting ? 'hourglass-outline' : 'save-outline'"></ion-icon>
+              {{ isSubmitting ? 'Menyimpan...' : 'Simpan Worklog' }}
+            </ion-button>
+            
+            <ion-button expand="block" fill="outline" class="reset-btn" (click)="resetForm()">
+              <ion-icon slot="start" name="refresh-outline"></ion-icon>
+              Reset
+            </ion-button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ion-content>

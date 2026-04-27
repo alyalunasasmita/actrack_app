@@ -1,0 +1,25 @@
+<ion-tabs (ionTabsDidChange)="onTabChange($event)">
+  <ion-tab-bar slot="bottom">
+
+    <ion-tab-button tab="worklog">
+      <ion-icon [name]="selectedTab === 'worklog' ? 'home' : 'home-outline'"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="statistic">
+      <ion-icon [name]="selectedTab === 'statistic' ? 'stats-chart' : 'stats-chart-outline'"></ion-icon>
+      <ion-label>Stats</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="plant">
+      <ion-icon [name]="selectedTab === 'plant' ? 'leaf' : 'leaf-outline'"></ion-icon>
+      <ion-label>Plant</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile">
+      <ion-icon [name]="selectedTab === 'profile' ? 'person' : 'person-outline'"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+</ion-tabs>

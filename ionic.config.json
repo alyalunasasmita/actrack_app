@@ -1,0 +1,7 @@
+{
+  "name": "actrack-fe",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,139 @@
+<ion-content class="plant-bg">
+  <div class="clean-wrapper">
+    <div class="plant-container-main">
+      
+      <!-- Header Section -->
+      <div class="plant-header">
+        <div class="plant-stats">
+          <div class="stat-card">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <div class="stat-info">
+              <span class="stat-label">Hari ke-</span>
+              <span class="stat-value">{{ progress?.streak || 0 }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plant Container -->
+      <div class="plant-display" [class]="getPlantAnimationClass()">
+        <div class="plant-glow"></div>
+        <img [src]="plantImage" class="plant-img" [class]="getPlantSizeClass()" />
+        <div class="plant-shadow"></div>
+        
+        <!-- Floating particles for animation -->
+        <div class="particles" *ngIf="progress?.status === 'healthy'">
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+        </div>
+      </div>
+
+      <!-- Plant Name / Greeting -->
+      <div class="plant-greeting">
+        <h2>{{ getPlantGreeting() }}</h2>
+        <p>{{ getPlantMessage() }}</p>
+      </div>
+
+      <!-- Progress Info Card -->
+      <div class="info-card">
+        <div class="info-header">
+          <ion-icon name="stats-chart-outline" class="info-icon"></ion-icon>
+          <h3>Status Tanaman</h3>
+        </div>
+
+        <div class="info-content">
+          <!-- Growth Progress Bar -->
+          <div class="progress-section">
+            <div class="progress-label">
+              <span>🌿 Pertumbuhan</span>
+              <span class="progress-value">{{ progress?.growth || 0 }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="progress?.growth || 0"></div>
+            </div>
+          </div>
+
+          <!-- Streak Info -->
+          <div class="info-row">
+            <div class="info-item">
+              <ion-icon name="flame-outline" class="streak-icon"></ion-icon>
+              <div class="info-text">
+                <span class="info-label">Streak</span>
+                <span class="info-value">{{ progress?.streak || 0 }} hari</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Status Badge -->
+          <div class="status-section">
+            <div class="status-badge" [class]="getStatusClass()">
+              <ion-icon [name]="getStatusIcon()"></ion-icon>
+              <span>Status: {{ progress?.status || 'seed' }}</span>
+            </div>
+          </div>
+
+          <!-- Additional Info -->
+          <div class="tips-section" *ngIf="getTip()">
+            <ion-icon name="bulb-outline"></ion-icon>
+            <p>{{ getTip() }}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Floating Help Button -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button class="help-fab-btn" (click)="showHelp()">
+      <ion-icon name="help-circle-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+<!-- Help Modal -->
+<ion-modal [isOpen]="isHelpOpen" (didDismiss)="closeHelp()" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8]" handle="true">
+  <ng-template>
+    <ion-content class="ion-padding">
+      <div class="modal-header">
+        <h3>Tips Merawat Tanaman 🌱</h3>
+        <ion-button fill="clear" (click)="closeHelp()">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="help-content">
+        <div class="help-item">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <div>
+            <strong>Rutin Setiap Hari</strong>
+            <p>Siram tanaman setiap hari untuk menjaga streak dan pertumbuhan</p>
+          </div>
+        </div>
+        <div class="help-item">
+          <ion-icon name="checkbox-outline"></ion-icon>
+          <div>
+            <strong>Selesaikan Worklog</strong>
+            <p>Setiap worklog yang selesai akan membantu tanaman tumbuh</p>
+          </div>
+        </div>
+        <div class="help-item">
+          <ion-icon name="trending-up-outline"></ion-icon>
+          <div>
+            <strong>Tingkatkan Produktivitas</strong>
+            <p>Semakin banyak tugas, semakin cepat tanaman berkembang</p>
+          </div>
+        </div>
+        <div class="help-item">
+          <ion-icon name="heart-outline"></ion-icon>
+          <div>
+            <strong>Jaga Kesehatan</strong>
+            <p>Jangan lewatkan perawatan agar tanaman tetap sehat</p>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

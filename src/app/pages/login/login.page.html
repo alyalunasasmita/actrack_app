@@ -1,0 +1,39 @@
+<ion-content class="ion-padding">
+  <div class="clean-wrapper">
+    <div class="header-section">
+      <div class="logo-circle">
+        <img src="/assets/icon.png" alt="Logo" class="main-logo">
+      </div>
+      <h1 class="main-title">Log In</h1>
+      <p class="sub-title">atur tugas keseharian kamu di actrack</p>
+    </div>
+
+    <div class="form-container">
+      <div class="input-group">
+        <ion-label>Username</ion-label>
+        <ion-item lines="none" class="custom-item">
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          <ion-input [(ngModel)]="username" placeholder="masukan username kamu"></ion-input>
+        </ion-item>
+      </div>
+
+      <div class="input-group">
+        <ion-label>Password</ion-label>
+        <ion-item lines="none" class="custom-item">
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-input [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'" placeholder="masukan password kamu"></ion-input>
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" slot="end" (click)="togglePassword()" class="toggle-pwd"></ion-icon>
+        </ion-item>
+      </div>
+
+      <ion-button expand="block" (click)="login()" [disabled]="isLoading" class="main-btn">
+        <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+        <span *ngIf="!isLoading">Log In</span>
+      </ion-button>
+    </div>
+
+    <div class="footer-section">
+      <p>belum punya akun? <span (click)="registerPage()">Register</span></p>
+    </div>
+  </div>
+</ion-content>

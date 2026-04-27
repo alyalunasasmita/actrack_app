@@ -1,0 +1,335 @@
+// Force white background and light mode
+ion-content.detail-bg {
+  --background: #ffffff !important;
+  
+  @media (prefers-color-scheme: dark) {
+    --background: #ffffff !important;
+  }
+}
+
+.clean-wrapper {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+.detail-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+// Back Button
+.back-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  
+  .back-icon {
+    font-size: 28px;
+    color: #667eea;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 30px;
+    background: rgba(102, 126, 234, 0.1);
+    transition: all 0.2s ease;
+    
+    &:active {
+      transform: scale(0.95);
+      background: rgba(102, 126, 234, 0.2);
+    }
+  }
+}
+
+// Detail Header
+.detail-header {
+  text-align: center;
+  margin-bottom: 32px;
+  margin-top: 20px;
+  
+  .header-icon-container {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    margin-bottom: 16px;
+    
+    .header-icon {
+      font-size: 40px;
+      color: #ffffff;
+    }
+  }
+  
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+  }
+  
+  p {
+    font-size: 16px;
+    color: #7a7a7a;
+    margin: 0;
+  }
+}
+
+// Detail Card
+.detail-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+// Info Section
+.info-section {
+  padding: 20px;
+  border-bottom: 1px solid #eeeeee;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    
+    .section-icon {
+      font-size: 22px;
+      color: #667eea;
+    }
+    
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0;
+    }
+  }
+}
+
+// Info Grid
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  
+  .info-icon {
+    font-size: 20px;
+    color: #667eea;
+    margin-top: 2px;
+  }
+  
+  .info-content {
+    flex: 1;
+    
+    .info-label {
+      display: block;
+      font-size: 12px;
+      color: #7a7a7a;
+      margin-bottom: 4px;
+    }
+    
+    .info-value {
+      display: block;
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+  }
+}
+
+// Activity Card
+.activity-card {
+  background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+  border-radius: 16px;
+  padding: 20px;
+  
+  .activity-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+  
+  .task-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(102, 126, 234, 0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+    
+    ion-icon {
+      font-size: 16px;
+      color: #667eea;
+    }
+    
+    span {
+      font-size: 13px;
+      font-weight: 500;
+      color: #667eea;
+    }
+  }
+}
+
+// Notes Card
+.notes-card {
+  background: #f9f9f9;
+  border-radius: 16px;
+  padding: 16px;
+  border-left: 4px solid #667eea;
+  
+  p {
+    font-size: 14px;
+    color: #5a5a5a;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+// Action Buttons
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+  
+  .edit-btn {
+    --border-radius: 12px;
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 48px;
+    font-weight: 600;
+    text-transform: none;
+    
+    ion-icon {
+      font-size: 20px;
+    }
+  }
+  
+  .delete-btn {
+    --border-radius: 12px;
+    --background: #ffffff;
+    --color: #f04141;
+    --border-color: #f04141;
+    --border-style: solid;
+    --border-width: 1px;
+    height: 48px;
+    font-weight: 600;
+    text-transform: none;
+    
+    ion-icon {
+      font-size: 20px;
+    }
+    
+    &:active {
+      --background: rgba(240, 65, 65, 0.1);
+    }
+  }
+}
+
+// Empty State
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  
+  .empty-icon {
+    font-size: 80px;
+    color: #d0d0d0;
+    margin-bottom: 20px;
+  }
+  
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+  }
+  
+  p {
+    font-size: 14px;
+    color: #7a7a7a;
+    margin: 0 0 24px 0;
+  }
+  
+  .back-btn {
+    --border-radius: 12px;
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    text-transform: none;
+    
+    ion-icon {
+      font-size: 20px;
+    }
+  }
+}
+
+// Responsive for small screens
+@media (max-height: 700px) {
+  .clean-wrapper {
+    justify-content: flex-start;
+    padding-top: 60px;
+  }
+  
+  .detail-header {
+    margin-bottom: 20px;
+    margin-top: 0;
+    
+    .header-icon-container {
+      width: 60px;
+      height: 60px;
+      
+      .header-icon {
+        font-size: 30px;
+      }
+    }
+    
+    h1 {
+      font-size: 24px;
+    }
+    
+    p {
+      font-size: 14px;
+    }
+  }
+  
+  .info-section {
+    padding: 16px;
+  }
+  
+  .activity-card {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .detail-container {
+    max-width: 100%;
+  }
+  
+  .back-container .back-icon {
+    font-size: 24px;
+  }
+  
+  .info-item .info-content .info-value {
+    font-size: 14px;
+  }
+}

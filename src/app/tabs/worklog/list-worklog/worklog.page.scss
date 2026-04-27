@@ -1,0 +1,412 @@
+// Force white background and light mode
+ion-content.worklog-list-bg {
+  --background: #ffffff !important;
+  
+  @media (prefers-color-scheme: dark) {
+    --background: #ffffff !important;
+  }
+}
+
+.header-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding-bottom: 20px;
+  border-radius: 0 0 30px 30px;
+  position: relative;
+  
+  ion-header {
+    ion-toolbar {
+      --background: transparent;
+      --border-color: transparent;
+    }
+  }
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  
+  .title-icon {
+    font-size: 28px;
+    margin-right: 12px;
+  }
+}
+
+// Search Section
+.search-section {
+  padding: 0 16px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  
+  .search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 8px 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+    .search-icon-left {
+      font-size: 20px;
+      color: #7a7a7a;
+      margin-right: 12px;
+    }
+    
+    .custom-search-input {
+      flex: 1;
+      --color: #000000;
+      --padding-start: 0;
+      --padding-end: 0;
+      
+      input {
+        font-size: 16px;
+        color: #000000 !important;
+        
+        &::placeholder {
+          color: #b0b0b0;
+        }
+      }
+    }
+    
+    .clear-icon {
+      font-size: 20px;
+      color: #7a7a7a;
+      cursor: pointer;
+      
+      &:active {
+        opacity: 0.7;
+      }
+    }
+  }
+}
+
+// Filter Section
+.filter-section {
+  padding: 0 16px;
+  
+  .filter-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    .date-filter-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:active {
+        transform: scale(0.98);
+      }
+      
+      .filter-icon {
+        font-size: 20px;
+        color: #667eea;
+        margin-right: 12px;
+      }
+      
+      .filter-label {
+        flex: 1;
+        font-size: 14px;
+        color: #1a1a1a;
+        font-weight: 500;
+      }
+      
+      .chevron-icon {
+        font-size: 18px;
+        color: #7a7a7a;
+      }
+    }
+    
+    .reset-btn {
+      --color: #ffffff;
+      --padding-start: 8px;
+      --padding-end: 8px;
+      --border-radius: 12px;
+      margin: 0;
+      height: 48px;
+      width: 48px;
+      background: rgba(255, 255, 255, 0.2);
+      --background: rgba(255, 255, 255, 0.2);
+      
+      ion-icon {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+// Date Picker Dropdown
+.date-picker-dropdown {
+  margin: 12px 16px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: slideDown 0.3s ease;
+  
+  .dropdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #eeeeee;
+    
+    h4 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    
+    ion-button {
+      --padding-start: 8px;
+      --padding-end: 8px;
+      margin: 0;
+      --color: #7a7a7a;
+    }
+  }
+  
+  .custom-datetime {
+    --background: #ffffff;
+    --wheel-highlight-background: #eeeeee;
+    padding: 16px;
+    color: #1a1a1a;
+  }
+  
+  .dropdown-actions {
+    padding: 16px;
+    border-top: 1px solid #eeeeee;
+    
+    .apply-btn {
+      --border-radius: 12px;
+      --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
+      
+      ion-icon {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Loading Skeleton
+.skeleton-container {
+  padding: 16px;
+  
+  .skeleton-item {
+    --background: transparent;
+    margin-bottom: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+  }
+}
+
+// Worklog List
+.worklog-list {
+  padding: 20px 16px;
+  
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    
+    .empty-icon {
+      font-size: 80px;
+      color: #d0d0d0;
+      margin-bottom: 20px;
+    }
+    
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0 0 8px 0;
+    }
+    
+    p {
+      font-size: 14px;
+      color: #7a7a7a;
+      margin: 0 0 24px 0;
+    }
+    
+    .add-worklog-btn {
+      --border-radius: 12px;
+      --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+  }
+  
+  .worklog-card {
+    margin: 0 0 16px 0;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: fadeInUp 0.4s ease backwards;
+    
+    &:active {
+      transform: scale(0.98);
+    }
+    
+    .card-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    ion-card-header {
+      padding-bottom: 8px;
+    }
+    
+    .card-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+      
+      .card-subtitle {
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        color: #667eea;
+        font-weight: 500;
+        
+        .subtitle-icon {
+          font-size: 14px;
+          margin-right: 6px;
+        }
+      }
+      
+      .time-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: #f5f5f5;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        color: #5a5a5a;
+        
+        ion-icon {
+          font-size: 14px;
+        }
+      }
+    }
+    
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0;
+    }
+    
+    .card-content {
+      padding-top: 0;
+      
+      .notes-preview {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 13px;
+        color: #7a7a7a;
+        margin: 8px 0 16px 0;
+        line-height: 1.4;
+        
+        .notes-icon {
+          font-size: 16px;
+          margin-top: 2px;
+          flex-shrink: 0;
+        }
+      }
+      
+      .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 12px;
+        border-top: 1px solid #eeeeee;
+        
+        .task-count {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 13px;
+          color: #667eea;
+          font-weight: 500;
+          
+          ion-icon {
+            font-size: 16px;
+          }
+        }
+        
+        .view-detail {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 12px;
+          color: #764ba2;
+          font-weight: 500;
+          
+          ion-icon {
+            font-size: 14px;
+            transition: transform 0.2s ease;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// FAB Button
+.fab-btn {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .date-picker-dropdown {
+    margin: 12px 16px;
+  }
+  
+  .card-header-top {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+}

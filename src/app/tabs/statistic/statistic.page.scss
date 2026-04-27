@@ -1,0 +1,243 @@
+// Force white background and light mode
+ion-content.statistics-bg {
+  --background: #ffffff !important;
+  
+  @media (prefers-color-scheme: dark) {
+    --background: #ffffff !important;
+  }
+}
+
+.clean-wrapper {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+.statistics-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.statistics-header {
+  text-align: center;
+  margin-bottom: 32px;
+  
+  .header-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    margin-bottom: 16px;
+    
+    ion-icon {
+      font-size: 40px;
+      color: #ffffff;
+    }
+  }
+  
+  h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+  }
+  
+  p {
+    font-size: 16px;
+    color: #7a7a7a;
+    margin: 0;
+  }
+}
+
+// Stats Grid
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  margin: 0;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.2s ease;
+  
+  &:active {
+    transform: scale(0.98);
+  }
+  
+  .card-icon {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    opacity: 0.2;
+    
+    ion-icon {
+      font-size: 48px;
+      color: #667eea;
+    }
+  }
+  
+  ion-card-content {
+    padding: 20px 16px;
+    text-align: center;
+    
+    h2 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0 0 8px 0;
+    }
+    
+    p {
+      font-size: 14px;
+      color: #7a7a7a;
+      margin: 0;
+      font-weight: 500;
+    }
+  }
+}
+
+// Chart Card
+.chart-card {
+  margin: 0 0 24px 0;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  
+  ion-card-header {
+    padding-bottom: 0;
+    
+    .chart-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      
+      .chart-icon {
+        font-size: 24px;
+        color: #667eea;
+      }
+      
+      ion-card-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+    }
+  }
+  
+  ion-card-content {
+    padding: 16px;
+    
+    canvas {
+      max-height: 300px;
+      width: 100%;
+    }
+  }
+}
+
+// Insight Card
+.insight-card {
+  margin: 0;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
+  ion-card-content {
+    padding: 16px;
+    
+    .insight-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      
+      .insight-icon {
+        font-size: 24px;
+        color: #ffffff;
+      }
+      
+      span {
+        font-size: 14px;
+        color: #ffffff;
+        
+        b {
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+
+// Responsive for small screens
+@media (max-height: 700px) {
+  .clean-wrapper {
+    justify-content: flex-start;
+    padding-top: 20px;
+  }
+  
+  .statistics-header {
+    margin-bottom: 20px;
+    
+    .header-icon {
+      width: 60px;
+      height: 60px;
+      
+      ion-icon {
+        font-size: 30px;
+      }
+    }
+    
+    h2 {
+      font-size: 24px;
+    }
+    
+    p {
+      font-size: 14px;
+    }
+  }
+  
+  .stat-card {
+    ion-card-content {
+      padding: 16px;
+      
+      h2 {
+        font-size: 28px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    gap: 12px;
+  }
+  
+  .stat-card {
+    ion-card-content {
+      padding: 16px 12px;
+      
+      h2 {
+        font-size: 28px;
+      }
+      
+      p {
+        font-size: 12px;
+      }
+    }
+    
+    .card-icon ion-icon {
+      font-size: 36px;
+    }
+  }
+}

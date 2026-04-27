@@ -1,0 +1,314 @@
+// Force white background and light mode
+ion-content.password-bg {
+  --background: #ffffff !important;
+  
+  @media (prefers-color-scheme: dark) {
+    --background: #ffffff !important;
+  }
+}
+
+.clean-wrapper {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+.password-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+}
+
+// Back Button
+.back-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  
+  .back-icon {
+    font-size: 28px;
+    color: #667eea;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 30px;
+    background: rgba(102, 126, 234, 0.1);
+    transition: all 0.2s ease;
+    
+    &:active {
+      transform: scale(0.95);
+      background: rgba(102, 126, 234, 0.2);
+    }
+  }
+}
+
+// Password Header
+.password-header {
+  text-align: center;
+  margin-bottom: 32px;
+  margin-top: 20px;
+  
+  .lock-container {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    margin-bottom: 16px;
+    
+    .lock-icon {
+      font-size: 40px;
+      color: #ffffff;
+    }
+  }
+  
+  h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+  }
+  
+  p {
+    font-size: 16px;
+    color: #7a7a7a;
+    margin: 0;
+  }
+}
+
+// Password Card
+.password-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+}
+
+.password-item {
+  margin-bottom: 20px;
+  --border-radius: 12px;
+  --background: #f9f9f9;
+  --padding-start: 12px;
+  --inner-padding-end: 12px;
+  border: 1px solid #eeeeee;
+  border-radius: 12px;
+  --min-height: 65px;
+  
+  .item-icon {
+    color: #667eea;
+    font-size: 20px;
+    margin-right: 12px;
+  }
+  
+  .password-label {
+    color: #5a5a5a;
+    font-weight: 500;
+    transform: translateY(4px);
+    
+    &.ion-focused {
+      color: #667eea !important;
+    }
+  }
+  
+  .password-input {
+    --color: #000000 !important;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 16px;
+    font-size: 16px;
+    
+    input {
+      color: #000000 !important;
+    }
+  }
+  
+  .eye-icon {
+    font-size: 20px;
+    color: #7a7a7a;
+    cursor: pointer;
+    padding: 8px;
+    margin-right: -4px;
+    
+    &:active {
+      opacity: 0.7;
+    }
+  }
+}
+
+// Fix for floating label
+.password-item.item-has-value .password-label,
+.password-item.item-has-focus .password-label {
+  transform: translateY(-6px) scale(0.85);
+  color: #667eea !important;
+}
+
+// Password Strength Indicator
+.password-strength {
+  margin: -12px 0 20px 0;
+  
+  .strength-bar {
+    height: 4px;
+    background-color: #eeeeee;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 6px;
+    
+    .strength-level {
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+      
+      &.weak {
+        width: 33%;
+        background-color: #f04141;
+      }
+      
+      &.medium {
+        width: 66%;
+        background-color: #ffc409;
+      }
+      
+      &.strong {
+        width: 100%;
+        background-color: #2dd36f;
+      }
+    }
+  }
+  
+  .strength-text {
+    font-size: 11px;
+    color: #7a7a7a;
+    
+    &.weak-text {
+      color: #f04141;
+    }
+    
+    &.medium-text {
+      color: #ffc409;
+    }
+    
+    &.strong-text {
+      color: #2dd36f;
+    }
+  }
+}
+
+// Error Message
+.error-message {
+  display: flex;
+  align-items: center;
+  margin: -8px 0 20px 0;
+  padding: 12px;
+  background-color: #fff3f3;
+  border-radius: 12px;
+  border-left: 4px solid #f04141;
+  
+  .error-icon {
+    font-size: 20px;
+    color: #f04141;
+    margin-right: 12px;
+  }
+  
+  span {
+    color: #f04141;
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+  }
+}
+
+// Success Message
+.success-message {
+  display: flex;
+  align-items: center;
+  margin: -8px 0 20px 0;
+  padding: 12px;
+  background-color: #e8f5e9;
+  border-radius: 12px;
+  border-left: 4px solid #2dd36f;
+  
+  .success-icon {
+    font-size: 20px;
+    color: #2dd36f;
+    margin-right: 12px;
+  }
+  
+  span {
+    color: #2dd36f;
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+  }
+}
+
+// Update Button
+.update-password-btn {
+  --border-radius: 12px;
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 48px;
+  font-weight: 600;
+  text-transform: none;
+  margin-top: 8px;
+  
+  ion-icon {
+    font-size: 20px;
+  }
+  
+  &[disabled] {
+    opacity: 0.6;
+  }
+}
+
+// Responsive for small screens
+@media (max-height: 700px) {
+  .clean-wrapper {
+    justify-content: flex-start;
+    padding-top: 60px;
+  }
+  
+  .password-header {
+    margin-bottom: 24px;
+    margin-top: 0;
+    
+    .lock-container {
+      width: 60px;
+      height: 60px;
+      
+      .lock-icon {
+        font-size: 30px;
+      }
+    }
+    
+    h2 {
+      font-size: 24px;
+    }
+    
+    p {
+      font-size: 14px;
+    }
+  }
+  
+  .password-card {
+    padding: 16px;
+  }
+  
+  .password-item {
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .password-container {
+    max-width: 100%;
+  }
+  
+  .back-container .back-icon {
+    font-size: 24px;
+  }
+}

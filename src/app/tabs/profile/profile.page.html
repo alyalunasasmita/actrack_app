@@ -1,0 +1,33 @@
+<ion-content class="profile-bg" [fullscreen]="true">
+  <div class="clean-wrapper">
+    <div class="profile-container">
+      
+      <!-- Settings Button -->
+      <ion-button fill="clear" class="menu-btn" (click)="openMenu($event)">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+
+      <!-- Profile Card -->
+      <div class="profile-card" *ngIf="profile">
+        <div class="info-row">
+          <ion-icon name="person-outline" class="row-icon"></ion-icon>
+          <div class="info-content">
+            <span class="info-label">Username</span>
+            <span class="info-value">{{ profile.username }}</span>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <ion-icon name="card-outline" class="row-icon"></ion-icon>
+          <div class="info-content">
+            <span class="info-label">Nama Lengkap</span>
+            <span class="info-value">{{ profile.name }}</span>
+          </div>
+        </div>
+
+        
+      </div>
+
+    </div>
+  </div>
+</ion-content>
