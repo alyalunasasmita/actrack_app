@@ -1,62 +1,62 @@
-<ion-content class="statistics-bg">
-  <div class="clean-wrapper">
-    <div class="statistics-container">
-      
-      <!-- Statistics Header -->
-      <div class="statistics-header">
-        <div class="header-icon">
-          <ion-icon name="bar-chart-outline"></ion-icon>
+<ion-content [fullscreen]="true" class="evergreen-theme">
+
+  <main class="main-content">
+    <section class="chart-section">
+      <div class="glass-card">
+        <div class="card-header">
+          <h2 class="title">insight</h2>
+          <div class="date-badge">
+            <span>7 hari terakhir</span>
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
         </div>
-        <h2>Statistik</h2>
-        <p>Ringkasan produktivitas Anda</p>
-      </div>
 
-      <!-- SUMMARY CARDS -->
-      <div class="stats-grid">
-        <ion-card class="stat-card">
-          <div class="card-icon">
-            <ion-icon name="document-text-outline"></ion-icon>
-          </div>
-          <ion-card-content>
-            <h2>{{ totalWorklogs }}</h2>
-            <p>Total Worklogs</p>
-          </ion-card-content>
-        </ion-card>
-
-        <ion-card class="stat-card">
-          <div class="card-icon">
-            <ion-icon name="checkbox-outline"></ion-icon>
-          </div>
-          <ion-card-content>
-            <h2>{{ totalTasks }}</h2>
-            <p>Total Tasks</p>
-          </ion-card-content>
-        </ion-card>
-      </div>
-
-      <!-- CHART -->
-      <ion-card class="chart-card">
-        <ion-card-header>
-          <div class="chart-header">
-            <ion-icon name="trending-up-outline" class="chart-icon"></ion-icon>
-            <ion-card-title>Produktivitas</ion-card-title>
-          </div>
-        </ion-card-header>
-        <ion-card-content>
+        <div class="chart-container">
           <canvas #myChart></canvas>
-        </ion-card-content>
-      </ion-card>
+        </div>
 
-      <!-- INSIGHT -->
-      <ion-card class="insight-card" *ngIf="bestDay">
-        <ion-card-content>
-          <div class="insight-content">
-            <ion-icon name="flame-outline" class="insight-icon"></ion-icon>
-            <span>Hari paling produktif: <b>{{ bestDay }}</b></span>
-          </div>
-        </ion-card-content>
-      </ion-card>
+        <div class="chart-footer">
+          <p>
+            kamu telah menyelesaikan <span class="highlight">{{ totalTasks }} tugas</span> 
+            dari {{ totalWorklogs }} worklog.
+          </p>
+        </div>
+      </div>
+    </section>
 
-    </div>
-  </div>
+    <section class="stats-grid">
+      <div class="stat-card primary">
+        <div class="top-row">
+          <ion-icon name="checkbox-outline" class="main-icon"></ion-icon>
+          <span class="badge">Total</span>
+        </div>
+        <div class="bottom-row">
+          <h4 class="value">{{ totalTasks }}</h4>
+          <p class="label">TASKS COMPLET</p>
+        </div>
+      </div>
+
+      <div class="stat-card surface">
+        <div class="top-row">
+          <ion-icon name="analytics-outline" class="main-icon secondary"></ion-icon>
+          <span class="badge">Worklogs</span>
+        </div>
+        <div class="bottom-row">
+          <h4 class="value text-dark">{{ totalWorklogs }}</h4>
+          <p class="label text-muted">TOTAL SESI</p>
+        </div>
+      </div>
+
+      <div class="stat-card secondary">
+        <div class="top-row">
+          <ion-icon name="star-outline" class="main-icon"></ion-icon>
+          <span class="badge">puncak</span>
+        </div>
+        <div class="bottom-row">
+          <h4 class="value truncate">{{ bestDay ? (bestDay | date:'EEEE') : '-' }}</h4>
+          <p class="label">hari productive terbaik</p>
+        </div>
+      </div>
+    </section>
+  </main>
 </ion-content>

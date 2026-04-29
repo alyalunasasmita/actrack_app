@@ -47,38 +47,27 @@ export class AddworklogPage implements OnInit {
   }
 
   validateForm(): boolean {
-    // Reset error message
+  
     this.errorMessage = '';
     
-    // Validate activity
     if (!this.form.activity || this.form.activity.trim() === '') {
       this.errorMessage = 'Aktivitas harus diisi';
       return false;
     }
     
-    // Validate task count
+
     if (!this.form.task_count || this.form.task_count <= 0) {
       this.errorMessage = 'Jumlah tugas harus diisi dan lebih dari 0';
       return false;
     }
     
-    // Validate start time
     if (!this.form.start) {
       this.errorMessage = 'Waktu mulai harus diisi';
       return false;
     }
-    
-    // Validate end time
+
     if (!this.form.end) {
       this.errorMessage = 'Waktu selesai harus diisi';
-      return false;
-    }
-    
-    // Validate time range (start should be less than end)
-    const startTime = this.formatTime(this.form.start);
-    const endTime = this.formatTime(this.form.end);
-    if (endTime > startTime) {
-      this.errorMessage = 'Waktu selesai harus lebih besar dari waktu mulai';
       return false;
     }
     

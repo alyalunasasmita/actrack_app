@@ -1,240 +1,204 @@
-// Force white background and light mode
-ion-content.worklog-bg {
-  --background: #ffffff !important;
-  
-  @media (prefers-color-scheme: dark) {
-    --background: #ffffff !important;
-  }
-}
+$primary: #296861;
+$primary-container: #b0eee5;
+$surface-low: #f2f4f4;
+$text-tertiary: #56605f;
 
-.clean-wrapper {
-  width: 100%;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 20px;
-}
+.sprout-theme {
+  --background: #f8fafa;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 
-.worklog-container {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-}
+  .custom-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
 
-.worklog-header {
-  text-align: center;
-  margin-bottom: 32px;
-  
-  .header-icon {
-    font-size: 64px;
-    color: #3880ff;
-    margin-bottom: 16px;
-  }
-  
-  h2 {
-    font-size: 28px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0 0 8px 0;
-  }
-  
-  p {
-    font-size: 16px;
-    color: #7a7a7a;
-    margin: 0;
-  }
-}
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-.worklog-card {
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  padding: 20px;
-}
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 12px;
 
-.form-group {
-  margin-bottom: 20px;
-}
+        .avatar-wrapper {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          overflow: hidden;
+          border: 2px solid white;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+          img { width: 100%; height: 100%; object-fit: cover; }
+        }
 
-.form-item {
-  --border-radius: 12px;
-  --background: #f9f9f9;
-  --padding-start: 12px;
-  --inner-padding-end: 12px;
-  border: 1px solid #eeeeee;
-  border-radius: 12px;
-  margin-bottom: 0;
-  --min-height: 65px;
-  
-  .item-icon {
-    color: #3880ff;
-    font-size: 20px;
-    margin-right: 12px;
-  }
-  
-  .form-label {
-    color: #5a5a5a;
-    font-weight: 500;
-    transform: translateY(4px);
-    
-    &.ion-focused {
-      color: #3880ff !important;
+        .brand-name {
+          font-size: 18px;
+          font-weight: 700;
+          color: $primary;
+        }
+      }
     }
   }
-  
-  .custom-input {
-    --color: #000000 !important;
-    --padding-start: 0;
-    --padding-end: 0;
-    --padding-top: 16px;
-    font-size: 16px;
-    
-    input {
-      color: #000000 !important;
-    }
-  }
-  
-  .custom-textarea {
-    --color: #000000 !important;
-    --padding-start: 0;
-    --padding-end: 0;
-    --padding-top: 16px;
-    font-size: 16px;
-    
-    textarea {
-      color: #000000 !important;
-    }
-  }
-  
-  .custom-datetime {
-    --background: #f9f9f9;
-    --placeholder-color: #b0b0b0;
-    --placeholder-font-weight: 400;
-    --padding-start: 0;
-    --padding-end: 0;
-    --padding-top: 16px;
-    color: #000000;
-    font-size: 16px;
-  }
-}
 
-// Fix for floating label
-.form-item.item-has-value .form-label,
-.form-item.item-has-focus .form-label {
-  transform: translateY(-6px) scale(0.85);
-  color: #3880ff !important;
-}
+  .main-content {
+    padding: 24px;
+    max-width: 600px;
+    margin: 0 auto;
 
-// Time row layout
-.time-row {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
-  
-  .time-col {
-    flex: 1;
-    
-    .form-item {
-      margin-bottom: 0;
+    .title-section {
+      margin-bottom: 40px;
+      .page-title {
+        font-size: 40px;
+        font-weight: 700;
+        color: $primary;
+        margin: 0 0 8px 0;
+      }
+      .page-subtitle {
+        font-size: 18px;
+        color: $text-tertiary;
+        margin: 0;
+      }
     }
   }
-}
 
-// Error message
-.error-message {
-  display: flex;
-  align-items: center;
-  margin: -8px 0 20px 0;
-  padding: 12px;
-  background-color: #fff3f3;
-  border-radius: 12px;
-  border-left: 4px solid #f04141;
-  
-  .error-icon {
-    font-size: 20px;
-    color: #f04141;
-    margin-right: 12px;
-  }
-  
-  span {
-    color: #f04141;
-    font-size: 14px;
-    font-weight: 500;
-    flex: 1;
-  }
-}
+  .glass-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 20px 50px rgba(41, 104, 97, 0.08);
+    position: relative;
+    overflow: hidden;
 
-// Button group
-.button-group {
-  margin-top: 32px;
-  
-  .submit-btn {
-    --border-radius: 12px;
-    --background: #3880ff;
-    height: 48px;
-    font-weight: 600;
-    text-transform: none;
-    margin-bottom: 12px;
-    
-    ion-icon {
-      font-size: 20px;
-    }
-    
-    &[disabled] {
-      opacity: 0.6;
+    .decorative-blob {
+      position: absolute;
+      top: -48px;
+      right: -48px;
+      width: 128px;
+      height: 128px;
+      background: $primary-container;
+      opacity: 0.2;
+      border-radius: 50%;
+      filter: blur(40px);
     }
   }
-  
-  .reset-btn {
-    --border-radius: 12px;
-    --border-color: #d0d0d0;
-    --color: #7a7a7a;
-    height: 48px;
-    font-weight: 500;
-    text-transform: none;
-    
-    ion-icon {
-      font-size: 20px;
-    }
-  }
-}
 
-// Responsive for small screens
-@media (max-height: 700px) {
-  .clean-wrapper {
-    justify-content: flex-start;
-    padding-top: 20px;
-  }
-  
-  .worklog-header {
-    margin-bottom: 20px;
-    
-    .header-icon {
-      font-size: 48px;
-    }
-    
-    h2 {
-      font-size: 24px;
-    }
-    
-    p {
-      font-size: 14px;
-    }
-  }
-  
-  .worklog-card {
-    padding: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .time-row {
+  .sprout-form {
+    display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+
+    .input-group {
+      .input-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #3f4947;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        ion-icon { color: $primary; }
+      }
+
+      .nature-item {
+        --background: #{$surface-low};
+        --border-radius: 12px;
+        --padding-start: 12px;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+
+        &.item-has-focus {
+          --background: white;
+          border-color: rgba($primary, 0.1);
+        }
+
+        ion-input, ion-textarea {
+          font-weight: 400;
+          color: #191c1d;
+        }
+      }
+      
+      .date-item {
+        padding: 4px 0;
+        display: flex;
+        justify-content: flex-start;
+      }
+    }
+
+    .time-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .error-text {
+      color: #ba1a1a;
+      font-size: 13px;
+      margin: 0;
+      text-align: center;
+    }
+
+    .btn-save {
+      --background: #{$primary};
+      --background-hover: #{rgba($primary, 0.9)};
+      --border-radius: 16px;
+      --box-shadow: 0 10px 30px rgba(41, 104, 97, 0.2);
+      font-weight: 700;
+      font-size: 18px;
+      height: 56px;
+      margin-top: 12px;
+    }
   }
-  
-  .worklog-container {
-    max-width: 100%;
+
+  .inspiration-footer {
+    margin-top: 40px;
+    text-align: center;
+    p {
+      font-style: italic;
+      color: $text-tertiary;
+      font-size: 16px;
+    }
+  }
+
+  // Background Blobs
+  .bg-decoration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.3;
+    }
+
+    .blob-1 {
+      top: 10%;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      background: $primary-container;
+    }
+
+    .blob-2 {
+      bottom: -10%;
+      right: -5%;
+      width: 400px;
+      height: 400px;
+      background: #c0e8ff;
+    }
   }
 }

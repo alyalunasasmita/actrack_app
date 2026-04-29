@@ -1,151 +1,74 @@
-<ion-content class="worklog-list-bg">
-  
-  <!-- Header Section -->
-  <div class="header-gradient">
-    <ion-header class="ion-no-border">
-      <ion-toolbar color="transparent">
-        <ion-title class="header-title">
-          <ion-icon name="bookmark-outline" class="title-icon"></ion-icon>
-          Worklog
-        </ion-title>
-      </ion-toolbar>
-    </ion-header>
+<ion-content [fullscreen]="true" class="forest-theme">
 
-    <!-- Search Bar Section -->
-    <div class="search-section">
-      <div class="search-container">
-        <ion-icon name="search-outline" class="search-icon-left"></ion-icon>
+
+  <main class="content-wrapper">
+        <div class="search-container">
+      <div class="search-box">
+        <ion-icon name="search-outline" class="search-icon"></ion-icon>
         <ion-input 
+          placeholder="Search worklogs..." 
           [(ngModel)]="searchKeyword"
           (ionInput)="onSearch($event)"
-          placeholder="Cari Jurnal harianmu..."
-          class="custom-search-input"
-          type="text">
+          class="custom-input">
         </ion-input>
-        <ion-icon 
-          *ngIf="searchKeyword" 
-          name="close-circle-outline" 
-          class="clear-icon"
-          (click)="clearSearch()">
-        </ion-icon>
-      </div>
-    </div>
-
-    <!-- Filter Section -->
-    <div class="filter-section">
-      <div class="filter-container">
-        <div class="date-filter-box" (click)="toggleDatePicker()">
-          <ion-icon name="calendar-outline" class="filter-icon"></ion-icon>
-          <span class="filter-label">
-            {{ selectedDate ? (selectedDate | date:'EEEE, d MMMM y') : 'Pilih Tanggal' }}
-          </span>
-          <ion-icon name="chevron-down-outline" class="chevron-icon"></ion-icon>
-        </div>
-
-        <ion-button class="reset-btn" (click)="resetFilters()" fill="clear">
-          <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+        <ion-button fill="clear" *ngIf="searchKeyword" (click)="clearSearch()">
+          <ion-icon slot="icon-only" name="close-circle"></ion-icon>
         </ion-button>
       </div>
-    </div>
-
-    <!-- Date Picker Dropdown (bukan modal) -->
-    <div class="date-picker-dropdown" *ngIf="showDatePicker">
-      <div class="dropdown-header">
-        <h4>Pilih Tanggal</h4>
-        <ion-button fill="clear" (click)="toggleDatePicker()">
-          <ion-icon name="close-outline"></ion-icon>
-        </ion-button>
-      </div>
-      <ion-datetime
-        presentation="date"
-        [(ngModel)]="tempSelectedDate"
-        [value]="selectedDate"
-        (ionChange)="onDateChange($event)"
-        class="custom-datetime">
-      </ion-datetime>
-      <div class="dropdown-actions">
-        <ion-button expand="block" class="apply-btn" (click)="applyDateFilter()">
-          <ion-icon slot="start" name="checkmark-outline"></ion-icon>
-          Terapkan Filter
-        </ion-button>
-      </div>
-    </div>
-
-    <!-- Loading Skeleton -->
-    <div *ngIf="loading" class="skeleton-container">
-      <ion-item *ngFor="let i of [1,2,3,4,5]" class="skeleton-item" lines="none">
-        <ion-label>
-          <h2>
-            <ion-skeleton-text animated style="width: 60%;"></ion-skeleton-text>
-          </h2>
-          <p>
-            <ion-skeleton-text animated style="width: 40%;"></ion-skeleton-text>
-          </p>
-        </ion-label>
-      </ion-item>
-    </div>
-  </div>
-
-  <!-- Worklog List -->
-  <div class="worklog-list" *ngIf="!loading">
-    <div *ngIf="worklogs.length === 0" class="empty-state">
-      <ion-icon name="document-text-outline" class="empty-icon"></ion-icon>
-      <h3>Tidak Ada Worklog</h3>
-      <p>Belum ada worklog untuk tanggal ini</p>
-      <ion-button class="add-worklog-btn" (click)="addWorklog()">
-        <ion-icon slot="start" name="add-outline"></ion-icon>
-        Tambah Worklog
+      
+      <ion-button class="filter-btn" (click)="toggleDatePicker()">
+        <ion-icon slot="icon-only" name="calendar-outline"></ion-icon>
       </ion-button>
     </div>
 
-    <ion-card 
-      *ngFor="let item of worklogs; let i = index"
-      (click)="openDetail(item)"
-      class="worklog-card"
-      [style.animation-delay]="i * 0.05 + 's'">
-      
-      <div class="card-gradient"></div>
-      
-      <ion-card-header>
-        <div class="card-header-top">
-          <ion-card-subtitle class="card-subtitle">
-            <ion-icon name="calendar-outline" class="subtitle-icon"></ion-icon>
-            {{ item.date | date:'dd/MM/yyyy' }}
-          </ion-card-subtitle>
-          <div class="time-badge">
-            <ion-icon name="time-outline"></ion-icon>
-            {{ item.start }} - {{ item.end }}
-          </div>
+    <div class="date-picker-overlay" *ngIf="showDatePicker">
+      <div class="date-picker-card">
+        <ion-datetime 
+          presentation="date" 
+          [(ngModel)]="tempSelectedDate"
+          (ionChange)="onDateChange($event)">
+        </ion-datetime>
+        <div class="picker-footer">
+          <ion-button fill="clear" (click)="closeDatePicker()">Cancel</ion-button>
+          <ion-button fill="solid" (click)="applyDateFilter()">Apply Filter</ion-button>
         </div>
+      </div>
+    </div>
 
-        <ion-card-title class="card-title">
-          {{ item.activity }}
-        </ion-card-title>
-      </ion-card-header>
+    <div class="ion-text-center ion-padding" *ngIf="loading">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p class="text-outline">Growing your data...</p>
+    </div>
 
-      <ion-card-content class="card-content">
-        <p *ngIf="item.notes" class="notes-preview">
-          <ion-icon name="create-outline" class="notes-icon"></ion-icon>
-          {{ truncateText(item.notes, 80) }}
-        </p>
-        <div class="card-footer" *ngIf="item.task_count">
-          <div class="task-count">
-            <ion-icon name="checkbox-outline"></ion-icon>
-            <span>{{ item.task_count }} Tugas</span>
+    <div class="worklog-grid" *ngIf="!loading && worklogs.length > 0">
+      <div 
+        *ngFor="let item of worklogs; let i = index" 
+        class="worklog-item"
+        [class.featured]="i === 0"
+        (click)="openDetail(item)">
+        
+        <div class="item-content">
+          <h3 class="activity-title">{{ truncateText(item.activity, 40) }}</h3>
+          <div class="item-meta">
+            <span class="duration-badge">{{ item.task_count || 0 }} tasks</span>
+            <span class="time-stamp">{{ item.date | date:'shortTime' }}</span>
           </div>
-          <div class="view-detail">
-            <span>Lihat Detail</span>
-            <ion-icon name="arrow-forward-outline"></ion-icon>
-          </div>
+          <p class="notes" *ngIf="item.notes">{{ truncateText(item.notes, 60) }}</p>
         </div>
-      </ion-card-content>
-    </ion-card>
-  </div>
+      </div>
+    </div>
 
-  <!-- Floating Action Button -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button class="fab-btn" (click)="addWorklog()">
-      <ion-icon name="add-outline"></ion-icon>
+    <div class="empty-state" *ngIf="!loading && worklogs.length === 0">
+      <ion-icon name="leaf-outline" class="empty-icon"></ion-icon>
+      <h4>No entries found</h4>
+      <p>Try adjusting your search or date filter.</p>
+      <ion-button fill="outline" (click)="resetFilters()">Reset Filters</ion-button>
+    </div>
+  </main>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="custom-fab">
+    <ion-fab-button (click)="addWorklog()" color="primary">
+      <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

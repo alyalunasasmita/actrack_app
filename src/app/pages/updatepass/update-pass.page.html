@@ -1,99 +1,90 @@
-<ion-content class="password-bg">
-  <div class="clean-wrapper">
-    <div class="password-container">
+<ion-header class="ion-no-border">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" color="primary">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="evergreen-theme" [fullscreen]="true">
+  <div class="main-container max-w-md mx-auto">
+    
+    <div class="hero-section">
+      <h2 class="title">edit Password</h2>
+    </div>
+
+
+    <section class="form-container">
       
-      <!-- Back Button -->
-      <div class="back-container">
-        <ion-icon name="arrow-back-outline" (click)="goBack()" class="back-icon"></ion-icon>
-      </div>
-
-      <!-- Password Header -->
-      <div class="password-header">
-        <div class="lock-container">
-          <ion-icon name="lock-closed-outline" class="lock-icon"></ion-icon>
-        </div>
-        <h2>Ganti Password</h2>
-        <p>Perbarui password akun Anda</p>
-      </div>
-
-      <!-- Password Form Card -->
-      <div class="password-card">
-        <ion-item lines="none" class="password-item">
-          <ion-icon name="key-outline" slot="start" class="item-icon"></ion-icon>
-          <ion-label position="floating" class="password-label">Password Lama</ion-label>
+      <div class="input-group">
+        <label>password lama</label>
+        <div class="input-wrapper">
           <ion-input 
-            [(ngModel)]="old_password" 
             [type]="showOldPassword ? 'text' : 'password'" 
-            class="password-input">
+            [(ngModel)]="old_password"
+            placeholder="Enter current password">
           </ion-input>
-          <ion-icon 
-            slot="end" 
-            [name]="showOldPassword ? 'eye-off-outline' : 'eye-outline'" 
-            class="eye-icon" 
-            (click)="toggleOldPassword()">
-          </ion-icon>
-        </ion-item>
+          <ion-button fill="clear" (click)="toggleOldPassword()" class="toggle-btn">
+            <ion-icon [name]="showOldPassword ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
 
-        <ion-item lines="none" class="password-item">
-          <ion-icon name="lock-closed-outline" slot="start" class="item-icon"></ion-icon>
-          <ion-label position="floating" class="password-label">Password Baru</ion-label>
+      <div class="input-group">
+        <label>password baru</label>
+        <div class="input-wrapper">
           <ion-input 
-            [(ngModel)]="new_password" 
             [type]="showNewPassword ? 'text' : 'password'" 
-            class="password-input"
-            (ionInput)="validateNewPassword()">
+            [(ngModel)]="new_password"
+            (ionInput)="validateNewPassword()"
+            placeholder="Enter new password">
           </ion-input>
-          <ion-icon 
-            slot="end" 
-            [name]="showNewPassword ? 'eye-off-outline' : 'eye-outline'" 
-            class="eye-icon" 
-            (click)="toggleNewPassword()">
-          </ion-icon>
-        </ion-item>
-
-        <!-- Password strength indicator -->
-        <div class="password-strength" *ngIf="new_password && new_password.length > 0">
-          <div class="strength-bar">
-            <div class="strength-level" [class]="passwordStrength"></div>
-          </div>
+          <ion-button fill="clear" (click)="toggleNewPassword()" class="toggle-btn">
+            <ion-icon [name]="showNewPassword ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+          </ion-button>
+        </div>
+        
+        <div class="strength-meter" *ngIf="new_password">
+          <div class="meter-bar" [class]="passwordStrength"></div>
           <span class="strength-text" [class]="strengthTextClass">{{ strengthText }}</span>
         </div>
+        
+        <div class="info-tip" *ngIf="!new_password">
+          <ion-icon name="information-circle"></ion-icon>
+          <span>Minimal 6 karakter </span>
+        </div>
+      </div>
 
-        <ion-item lines="none" class="password-item">
-          <ion-icon name="checkmark-done-outline" slot="start" class="item-icon"></ion-icon>
-          <ion-label position="floating" class="password-label">Konfirmasi Password</ion-label>
+      <div class="input-group">
+        <label>Konfirmasi password baru</label>
+        <div class="input-wrapper">
           <ion-input 
-            [(ngModel)]="new_password_confirmation" 
             [type]="showConfirmPassword ? 'text' : 'password'" 
-            class="password-input"
-            (ionInput)="validateConfirmPassword()">
+            [(ngModel)]="new_password_confirmation"
+            (ionInput)="validateConfirmPassword()"
+            placeholder="Repeat new password">
           </ion-input>
-          <ion-icon 
-            slot="end" 
-            [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'" 
-            class="eye-icon" 
-            (click)="toggleConfirmPassword()">
-          </ion-icon>
-        </ion-item>
-
-        <!-- Error Message -->
-        <div class="error-message" *ngIf="errorMessage">
-          <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
-          <span>{{ errorMessage }}</span>
+          <ion-button fill="clear" (click)="toggleConfirmPassword()" class="toggle-btn">
+            <ion-icon [name]="showConfirmPassword ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+          </ion-button>
         </div>
+        <p class="error-text" *ngIf="errorMessage && new_password_confirmation">{{ errorMessage }}</p>
+      </div>
 
-        <!-- Success Message -->
-        <div class="success-message" *ngIf="successMessage">
-          <ion-icon name="checkmark-circle-outline" class="success-icon"></ion-icon>
-          <span>{{ successMessage }}</span>
-        </div>
-
-        <ion-button expand="block" class="update-password-btn" (click)="updatePassword()" [disabled]="isSubmitting">
-          <ion-icon slot="start" [name]="isSubmitting ? 'hourglass-outline' : 'shield-outline'"></ion-icon>
-          {{ isSubmitting ? 'Memproses...' : 'Update Password' }}
+      <div class="action-section">
+        <ion-button 
+          expand="block" 
+          class="update-btn" 
+          (click)="updatePassword()"
+          [disabled]="isSubmitting">
+          <ion-spinner name="crescent" *ngIf="isSubmitting"></ion-spinner>
+          <ion-icon name="lock-closed-outline" slot="start" *ngIf="!isSubmitting"></ion-icon>
+          {{ isSubmitting ? 'Updating...' : 'Update Password' }}
         </ion-button>
       </div>
 
-    </div>
+    </section>
   </div>
 </ion-content>

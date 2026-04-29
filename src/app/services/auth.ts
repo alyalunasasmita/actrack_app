@@ -17,7 +17,7 @@ export class Authservices {
 
   async getToken(): Promise<string | null> {
     try {
-      const result = await SecureStoragePlugin.get({ key: 'token' });
+      const result = await SecureStoragePlugin.get({ key: this.TOKEN_KEY });
       return result.value;
     } catch (error) {
       return null; 

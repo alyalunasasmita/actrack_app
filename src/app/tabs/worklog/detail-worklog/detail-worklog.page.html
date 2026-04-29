@@ -1,112 +1,75 @@
-<ion-content *ngIf="worklog" class="detail-bg">
-  <div class="clean-wrapper">
-    <div class="detail-container">
-      
-      <!-- Back Button -->
-      <div class="back-container">
-        <ion-icon name="arrow-back-outline" (click)="goBack()" class="back-icon"></ion-icon>
-      </div>
+<ion-content [fullscreen]="true" class="forest-theme">
+  <header class="fixed-header">
+    <div class="header-content">
+      <ion-button fill="clear" (click)="goBack()" color="primary">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+      <h1 class="brand-title">Detail Worklog</h1>
+      <div style="width: 48px;"></div> </div>
+  </header>
 
-      <!-- Header dengan animasi -->
-      <div class="detail-header">
-        <div class="header-icon-container">
-          <ion-icon name="checkmark-circle-outline" class="header-icon"></ion-icon>
-        </div>
-        <h1>Worklog Details</h1>
-        <p>Ringkasan aktivitas pekerjaan Anda</p>
-      </div>
-
-      <!-- Main Card -->
-      <div class="detail-card">
-
-        <!-- Date & Time Section -->
-        <div class="info-section">
-          <div class="section-title">
-            <ion-icon name="calendar-outline" class="section-icon"></ion-icon>
-            <h3>Tanggal & Waktu</h3>
-          </div>
-          <div class="info-grid">
-            <div class="info-item">
-              <ion-icon name="today-outline" class="info-icon"></ion-icon>
-              <div class="info-content">
-                <span class="info-label">Tanggal</span>
-                <span class="info-value">{{ worklog.date | date:'EEEE, d MMMM y' }}</span>
-              </div>
-            </div>
-            <div class="info-item">
-              <ion-icon name="time-outline" class="info-icon"></ion-icon>
-              <div class="info-content">
-                <span class="info-label">Waktu</span>
-                <span class="info-value">{{ worklog.start }} - {{ worklog.end }}</span>
-              </div>
-            </div>
-            <div class="info-item" *ngIf="calculateDuration()">
-              <ion-icon name="hourglass-outline" class="info-icon"></ion-icon>
-              <div class="info-content">
-                <span class="info-label">Durasi</span>
-                <span class="info-value">{{ calculateDuration() }}</span>
-              </div>
-            </div>
+  <main class="content-wrapper" *ngIf="worklog">
+    <section class="hero-section">
+      <div class="featured-card">
+        <img src="\assets\bg.png" alt="Nature" class="card-bg" />
+        <div class="card-overlay">
+          <div class="goal-info">
+            <span class="value">{{ worklog.activity }}</span>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Activity Section -->
-        <div class="info-section">
-          <div class="section-title">
-            <ion-icon name="briefcase-outline" class="section-icon"></ion-icon>
-            <h3>Aktivitas</h3>
-          </div>
-          <div class="activity-card">
-            <ion-card-title class="activity-title">
-              {{ worklog.activity }}
-            </ion-card-title>
-            <div class="task-count" *ngIf="worklog.task_count">
-              <ion-icon name="checkbox-outline"></ion-icon>
-              <span>{{ worklog.task_count }} Tugas</span>
+    <div class="worklog-grid">
+      <div class="worklog-item featured">
+        <div class="item-content">
+          <div class="activity-title">Waktu Aktivitas</div>
+          <div class="item-meta">
+            <div class="time-block">
+              <ion-icon name="time-outline" color="primary"></ion-icon>
+              <span>{{ worklog.start }} - {{ worklog.end }}</span>
             </div>
+            <span class="duration-badge">{{ calculateDuration() }}</span>
+          </div>
+          <div class="date-stamp">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>{{ worklog.date | date: 'fullDate' }}</span>
           </div>
         </div>
+      </div>
 
-        <!-- Notes Section -->
-        <div class="info-section" *ngIf="worklog.notes">
-          <div class="section-title">
-            <ion-icon name="create-outline" class="section-icon"></ion-icon>
-            <h3>Catatan</h3>
-          </div>
-          <div class="notes-card">
-            <p>{{ worklog.notes }}</p>
+      <div class="worklog-item">
+        <div class="item-content">
+          <div class="activity-title">Catatan</div>
+          <p class="notes">{{ worklog.notes || 'Tidak ada catatan tambahan.' }}</p>
+        </div>
+      </div>
+
+      <div class="worklog-item">
+        <div class="item-content">
+          <div class="activity-title">Task Count</div>
+          <div class="item-meta">
+            <span class="duration-badge">{{ worklog.task_count || 0 }} Sub-tasks</span>
           </div>
         </div>
-
       </div>
-
-      <!-- Action Buttons -->
-      <div class="action-buttons">
-        <ion-button expand="block" class="edit-btn" (click)="edit()">
-          <ion-icon slot="start" name="create-outline"></ion-icon>
-          Edit Worklog
-        </ion-button>
-
-        <ion-button expand="block" class="delete-btn" (click)="confirmDelete()">
-          <ion-icon slot="start" name="trash-outline"></ion-icon>
-          Hapus Worklog
-        </ion-button>
-      </div>
-
     </div>
-  </div>
-</ion-content>
 
-<ion-content *ngIf="!worklog" class="detail-bg">
-  <div class="clean-wrapper">
-    <div class="empty-state">
-      <ion-icon name="document-text-outline" class="empty-icon"></ion-icon>
-      <h3>Worklog tidak ditemukan</h3>
-      <p>Data worklog yang Anda cari tidak tersedia</p>
-      <ion-button class="back-btn" (click)="goBack()">
-        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
-        Kembali
+    <div class="action-footer">
+      <ion-button expand="block" mode="ios" class="edit-btn" (click)="edit()">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+        Edit Worklog
+      </ion-button>
+      
+      <ion-button expand="block" fill="clear" color="danger" class="delete-btn" (click)="confirmDelete()">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Hapus Data
       </ion-button>
     </div>
+  </main>
+
+  <div class="empty-state" *ngIf="!worklog">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Memuat detail...</p>
   </div>
 </ion-content>

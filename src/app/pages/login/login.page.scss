@@ -1,153 +1,129 @@
-// Memaksa background tetap putih
-ion-content {
-  --background: #ffffff;
-}
+.evergreen-login {
+  --background: #f8fafa;
 
-.clean-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  padding: 20px;
-}
+  // Background Blobs
+  .decorative-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
 
-.header-section {
-  text-align: center;
-  margin-bottom: 40px;
+    .blob-1 {
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: var(--ion-color-primary-tint);
+      filter: blur(80px);
+      opacity: 0.2;
+      border-radius: 50%;
+    }
 
-  .logo-circle {
-    background: #f4f7f6;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    .bg-leaf-icon {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      font-size: 200px;
+      opacity: 0.05;
+      color: var(--ion-color-primary);
+    }
+  }
+
+  .login-wrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 90%;
+    padding: 20px;
+  }
+
+  .logo-flex {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 20px;
-    
-    ion-icon {
-      font-size: 40px;
-      color: var(--ion-color-primary);
+    gap: 8px;
+    ion-icon { font-size: 24px; }
+    h1 { 
+      font-weight: 700; 
+      color: var(--ion-color-primary-shade); 
+      margin: 0;
+      font-size: 1.5rem;
     }
   }
 
-  .main-title {
-    font-weight: 700;
-    font-size: 28px;
-    color: #1a1a1a;
-    margin: 0;
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 20px 40px rgba(107, 168, 160, 0.15);
+    margin-top: 40px;
   }
 
-  .sub-title {
-    color: #7a7a7a;
-    margin-top: 8px;
-    font-size: 14px;
+  .h2-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--ion-color-primary);
+    margin-bottom: 8px;
   }
-}
 
-.form-container {
-  .input-group {
-    margin-bottom: 20px;
-
-    ion-label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      color: #333;
-    }
+  .custom-label {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--ion-color-medium);
+    font-weight: 600;
+    padding-left: 4px;
   }
 
   .custom-item {
-    --background: #f9f9f9;
+    --background: #f2f4f4;
     --border-radius: 12px;
-    --padding-start: 15px;
-    --highlight-height: 0;
-    border: 1px solid #eeeeee;
-    transition: 0.3s;
-
-    &.item-has-focus {
-      border: 1px solid var(--ion-color-primary);
-      --background: #ffffff;
-    }
-
+    --padding-start: 16px;
+    margin-top: 8px;
+    
     ion-icon {
-      color: #999;
+      color: var(--ion-color-medium);
       font-size: 20px;
     }
 
-    ion-input {
-      --color: #000000; // Memaksa teks input tetap hitam
-      font-size: 15px;
+    &.item-has-focus {
+      --background: #ffffff;
+      border: 2px solid var(--ion-color-primary-tint);
     }
   }
-}
 
-.main-btn {
-  margin-top: 30px;
-  --border-radius: 12px;
-  --box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
-  height: 50px;
-  font-weight: 600;
-  text-transform: none;
-}
+  .login-button {
+    --border-radius: 12px;
+    --background: linear-gradient(to bottom, #6ba8a0, #296861);
+    height: 56px;
+    margin-top: 24px;
+    font-weight: 600;
+  }
 
-.footer-section {
-  text-align: center;
-  margin-top: 30px;
-  
-  p {
-    color: #7a7a7a;
-    font-size: 14px;
-
-    span {
-      color: var(--ion-color-primary);
-      font-weight: 700;
-      cursor: pointer;
+  .quote-container {
+    margin-top: 32px;
+    .divider {
+      width: 40px;
+      height: 4px;
+      background: var(--ion-color-primary-tint);
+      border-radius: 10px;
+      margin: 0 auto 16px;
+      opacity: 0.3;
+    }
+    .quote-text {
+      font-style: italic;
+      color: var(--ion-color-secondary);
+      opacity: 0.7;
     }
   }
-}
 
-.toggle-pwd {
-  cursor: pointer;
-  z-index: 10;
-}
-
-.custom-logo {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-}
-
-.avatar-icon {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.logo-container {
-  /* Hilangkan background lingkaran jika tidak perlu */
-  background: transparent; 
-  
-  /* Atur lebar logo (sesuaikan dengan keinginanmu) */
-  width: 120px; 
-  
-  /* Biarkan tinggi menyesuaikan otomatis agar tidak gepeng */
-  height: auto; 
-  
-  /* Posisi di tengah */
-  margin: 0 auto 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .main-logo {
-    /* Pastikan gambar mengisi lebar kontainer */
-    width: 100%;
-    height: auto;
-    
-    /* 'contain' menjaga gambar tetap terlihat utuh tanpa terpotong */
-    object-fit: contain; 
+  .footer-copy {
+    font-size: 12px;
+    color: var(--ion-color-medium);
+    margin-bottom: 20px;
   }
 }
