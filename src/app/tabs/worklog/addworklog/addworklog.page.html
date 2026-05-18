@@ -23,6 +23,24 @@
             </ion-item>
           </div>
 
+          <div class="input-group">
+          <label class="input-label">
+            <ion-icon name="calendar-outline"></ion-icon>
+            tanggal aktivitas
+          </label>
+
+          <ion-item lines="none" class="nature-item">
+
+            <ion-datetime
+              presentation="date"
+              [(ngModel)]="form.date"
+              name="date">
+            </ion-datetime>
+
+          </ion-item>
+        </div>
+
+
           <div class="time-grid">
             <div class="input-group">
               <label class="input-label">

@@ -9,10 +9,13 @@
         {{ alert.message }}
       </div>
 
-      <!-- CONFIRM BUTTON -->
       <div *ngIf="alert.mode === 'confirm'" class="actions">
-        <button class="cancel" (click)="cancel()">Batal</button>
-        <button class="ok" (click)="confirm()">Ya</button>
+        <ion-button fill="clear" color="medium" (click)="cancel()">
+          Batal
+        </ion-button>
+        <ion-button color="danger" (click)="confirm()">
+          Ya
+        </ion-button>
       </div>
 
     </div>

@@ -23,8 +23,8 @@
         <div class="input-wrapper">
           <ion-input 
             [type]="showOldPassword ? 'text' : 'password'" 
-            [(ngModel)]="old_password"
-            placeholder="Enter current password">
+            [(ngModel)]="current_password"
+            placeholder="Masukan Password saat ini">
           </ion-input>
           <ion-button fill="clear" (click)="toggleOldPassword()" class="toggle-btn">
             <ion-icon [name]="showOldPassword ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
@@ -39,7 +39,7 @@
             [type]="showNewPassword ? 'text' : 'password'" 
             [(ngModel)]="new_password"
             (ionInput)="validateNewPassword()"
-            placeholder="Enter new password">
+            placeholder="masukan password baru">
           </ion-input>
           <ion-button fill="clear" (click)="toggleNewPassword()" class="toggle-btn">
             <ion-icon [name]="showNewPassword ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
@@ -64,7 +64,7 @@
             [type]="showConfirmPassword ? 'text' : 'password'" 
             [(ngModel)]="new_password_confirmation"
             (ionInput)="validateConfirmPassword()"
-            placeholder="Repeat new password">
+            placeholder="Konfirmasi password baru">
           </ion-input>
           <ion-button fill="clear" (click)="toggleConfirmPassword()" class="toggle-btn">
             <ion-icon [name]="showConfirmPassword ? 'eye-outline' : 'eye-off-outline'"></ion-icon>

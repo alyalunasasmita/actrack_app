@@ -64,13 +64,18 @@ export class DetailWorklogPage implements OnInit {
         this.alert.show('Gagal menghapus data', 'error');
       }
     });
+
+    console.log('ppap');
   }
 
-  confirmDelete() {
-    this.alert.confirm('Yakin untuk menghapus worklog?', () => {
-      this.delete();
-    });
+ async confirmDelete() {
+  const isConfirmed = await this.alert.confirm('Yakin untuk menghapus worklog?');
+
+  if (isConfirmed) {
+    this.delete(); 
   }
+}
+
 
   goBack() {
     this.navCtrl.navigateForward(['/tabs/worklog'])

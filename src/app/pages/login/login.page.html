@@ -40,9 +40,9 @@
             </ion-item>
           </div>
 
-        <ion-button expand="block" (click)="login()" [disabled]="isLoading || !username || !password" class="main-btn">
-        <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
-        <span *ngIf="!isLoading">Log In</span>
+        <ion-button expand="block" (click)="login()" [disabled]="loading || !username || !password" class="main-btn">
+        <ion-spinner name="crescent" *ngIf="loading"></ion-spinner>
+        <span *ngIf="!loading">Log In</span>
       </ion-button>
       </form>
 

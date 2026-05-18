@@ -117,23 +117,22 @@ export class EditWorklogPage implements OnInit {
     return `${hours}:${minutes}`;
   }
 
-  confirmEdit() {
-    if (!this.validateForm()) {
+  async confirmEdit() {
+  if (!this.validateForm()) {
       if (this.errorMessage) {
         this.alert.show(this.errorMessage, 'error');
       }
       return;
     }
+    const isConfirmed = await this.alert.confirm('Yakin untuk mengedit data worklog ini?');
     
-    this.alert.confirm('Yakin untuk mengedit data worklog ini?', () => {
+    if (isConfirmed) {
       this.submit();
-    });
+    }
   }
 
   submit() {
     this.isSubmitting = true;
-    
-    // Pastikan data yang dikirim ke Laravel sudah bersih dari format ISO
     const payload = {
       ...this.form,
       date: this.formatDate(this.form.date),

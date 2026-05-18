@@ -35,24 +35,80 @@ export class RegisterPage implements OnInit {
   }
 
   register() {
-    const data = {
-      name : this.name,
-      username : this.username,
-      password : this.password,
-    };
-    this.isLoading = true
-    this.api.register(data).subscribe({
-      next: (res:any)=> {
-        this.alert.show('register berhasil, silahkan login'); 
-        this.isLoading = false;
-        this.router.navigateByUrl('/login'); 
-      }, 
-      error: (err) => {
-      this.isLoading = false;
-      this.alert.show(err.error.message, 'error'); 
-      }
-    });
+
+  if (!this.isFormValid()) {
+
+    this.alert.show(
+      'Semua field wajib diisi dengan benar',
+      'error'
+    );
+
+    return;
   }
+
+  const data = {
+    name: this.name,
+    username: this.username,
+    password: this.password,
+  };
+
+  this.isLoading = true;
+
+  this.api.register(data).subscribe({
+
+    next: (res: any) => {
+
+      this.isLoading = false;
+
+      this.alert.show(
+        'Register berhasil, silahkan login',
+        'message'
+      );
+
+      this.router.navigateByUrl('/login');
+
+    },
+
+    error: (err) => {
+
+      this.isLoading = false;
+
+      console.log('REGISTER ERROR:', err);
+
+      let message = 'Register gagal';
+
+      // Validation Laravel
+      if (err.error?.errors) {
+
+        const errors = Object.values(err.error.errors);
+
+        message = errors
+          .map((e: any) => e[0])
+          .join(', ');
+
+      }
+
+      // Error biasa
+      else if (err.error?.message) {
+
+        message = err.error.message;
+
+      }
+
+      // Tidak bisa konek server
+      else if (err.status === 0) {
+
+        message = 'Tidak dapat terhubung ke server';
+
+      }
+
+      this.alert.show(message, 'error');
+
+    }
+
+  });
+
+}
 
   togglePassword() {
     this.showPassword = !this.showPassword;

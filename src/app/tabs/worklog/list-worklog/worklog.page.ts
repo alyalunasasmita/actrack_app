@@ -15,7 +15,7 @@ export class WorklogPage {
   allWorklogs: any[] = [];
   searchKeyword: string = '';
   selectedDate: string = '';
-  showDatePicker: boolean = false; // Untuk dropdown date picker
+  showDatePicker: boolean = false; 
   tempSelectedDate: string = '';
   loading = true; 
   worklog: any[] = []; 
@@ -82,7 +82,6 @@ export class WorklogPage {
   applyFilters() {
     let filtered = [...this.allWorklogs];
     
-    // Filter by search keyword
     if (this.searchKeyword && this.searchKeyword.trim() !== '') {
       filtered = filtered.filter(item => {
         const activityMatch = item.activity?.toLowerCase().includes(this.searchKeyword);
@@ -91,7 +90,6 @@ export class WorklogPage {
       });
     }
     
-    // Filter by date
     if (this.selectedDate && this.selectedDate.trim() !== '') {
       filtered = filtered.filter(item => {
         const itemDate = item.date ? item.date.split('T')[0] : '';
@@ -107,7 +105,7 @@ export class WorklogPage {
     this.router.navigate(['/tabs/detail-worklog', item.id]);
   }
 
-  // Method untuk toggle date picker dropdown
+
   toggleDatePicker() {
     this.showDatePicker = !this.showDatePicker;
     if (this.showDatePicker) {
@@ -116,19 +114,19 @@ export class WorklogPage {
     }
   }
 
-  // Method untuk close date picker dropdown
+
   closeDatePicker() {
     this.showDatePicker = false;
   }
 
-  // Method saat date berubah di datetime picker
+
   onDateChange(event: any) {
     if (event && event.detail && event.detail.value) {
       this.tempSelectedDate = event.detail.value;
     }
   }
 
-  // Method untuk apply filter date
+
   applyDateFilter() {
     if (this.tempSelectedDate) {
       this.selectedDate = this.tempSelectedDate.split('T')[0];

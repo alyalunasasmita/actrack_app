@@ -35,10 +35,9 @@ export class AddworklogPage implements OnInit {
 
   formatTime(value: string): string {
     if (!value) return '';
-    const date = new Date(value);
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0'); 
-    return `${hours}:${minutes}`;
+    const match = value.match(/(\d{2}):(\d{2})/);
+    if (!match) return '';
+    return `${match[1]}:${match[2]}`;
   }
 
   formatDate(value: string): string {
@@ -70,12 +69,33 @@ export class AddworklogPage implements OnInit {
       this.errorMessage = 'Waktu selesai harus diisi';
       return false;
     }
+
+    const startTime = this.formatTime(this.form.start);
+    const endTime = this.formatTime(this.form.end);
+    const [startHour, startMinute] =
+      startTime.split(':').map(Number);
+    const [endHour, endMinute] =
+      endTime.split(':').map(Number);
+    const startTotal =
+      (startHour * 60) + startMinute;
+    const endTotal =
+      (endHour * 60) + endMinute;
+    console.log({
+      startTime,
+      endTime,
+      startTotal,
+      endTotal
+    });
+    if (endTotal <= startTotal) {
+      this.errorMessage =
+        'Waktu selesai harus lebih besar dari waktu mulai';
+      return false;
+    }
     
     return true;
   }
 
   submit() {
-    // Validate form first
     if (!this.validateForm()) {
       return;
     }
@@ -111,10 +131,29 @@ export class AddworklogPage implements OnInit {
         this.navCtrl.navigateBack('/tabs/worklog');
       }, 
       error: (err) => {
-        console.log('Error:', err); 
-        this.isSubmitting = false;
-        this.alert.show('Gagal tambah data: ' + (err.message || 'Terjadi kesalahan'));
+
         console.log('Error Full Detail:', err);
+        this.isSubmitting = false;
+        let message = 'Terjadi kesalahan';
+        if (err.error?.errors) {
+          const errors = Object.values(err.error.errors);
+          message = errors
+            .map((e: any) => e[0])
+            .join(', ');
+
+        }
+        else if (err.error?.message) {
+          message = err.error.message;
+
+        }
+        else if (err.status === 0) {
+          message = 'Tidak dapat terhubung ke server';
+
+        }
+        this.alert.show(
+          'Gagal tambah data: ' + message,
+          'error'
+        );
       }
     });
   }

@@ -64,10 +64,11 @@ async openMenu (ev: any) {
   }
 
   if (data === 'logout') {
-    this.alert.confirm('Yakin Mau Logout?', () => {
-      this.logout();
-    })
-  }
+      const isConfirmed = await this.alert.confirm('Yakin Mau Logout?');
+      if (isConfirmed) {
+        this.logout();
+      }
+    }
 
   if (data === "hapusakun") {
     this.deleteAccount()

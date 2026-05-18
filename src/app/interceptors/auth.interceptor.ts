@@ -10,10 +10,6 @@ import { Authservices } from '../services/auth';
 import { AlertsService } from '../services/alert/alerts';
 import { NavController } from '@ionic/angular';
 
-
-
-
-
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 

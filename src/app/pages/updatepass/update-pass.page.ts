@@ -11,7 +11,7 @@ import { ApiService } from 'src/app/services/api/api.service';
   standalone: false
 })
 export class UpdatePassPage implements OnInit {
-  old_password: string = ''; 
+  current_password: string = ''; 
   new_password: string = '';
   new_password_confirmation: string = ''; 
   
@@ -115,7 +115,7 @@ export class UpdatePassPage implements OnInit {
     this.errorMessage = '';
     
     // Check if all fields are filled
-    if (!this.old_password || this.old_password.trim() === '') {
+    if (!this.current_password || this.current_password.trim() === '') {
       this.errorMessage = 'Password lama harus diisi';
       return false;
     }
@@ -143,7 +143,7 @@ export class UpdatePassPage implements OnInit {
     }
     
     // Check if old password equals new password
-    if (this.old_password === this.new_password) {
+    if (this.current_password === this.new_password) {
       this.errorMessage = 'Password baru harus berbeda dengan password lama';
       return false;
     }
@@ -153,7 +153,7 @@ export class UpdatePassPage implements OnInit {
 
   // Reset form
   resetForm() {
-    this.old_password = '';
+    this.current_password = '';
     this.new_password = '';
     this.new_password_confirmation = '';
     this.errorMessage = '';
@@ -173,7 +173,7 @@ export class UpdatePassPage implements OnInit {
     this.successMessage = '';
     
     this.api.updatePassword({
-      old_password: this.old_password, 
+      current_password: this.current_password, 
       new_password: this.new_password, 
       new_password_confirmation: this.new_password_confirmation
     }).subscribe({

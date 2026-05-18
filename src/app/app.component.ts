@@ -34,14 +34,11 @@ export class AppComponent {
   }
 
   confirm(){
-    if(this.alert?.onConfim){
-      this.alert.onConfim(); 
-    }
-    this.alert = null
+   this.alertService.setConfirmResult(true);
   }
 
   cancel() {
-    this.alert = null;
+    this.alertService.setConfirmResult(false);
   }
 
   initializeApp() {

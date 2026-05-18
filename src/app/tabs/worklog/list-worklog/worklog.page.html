@@ -51,7 +51,7 @@
           <h3 class="activity-title">{{ truncateText(item.activity, 40) }}</h3>
           <div class="item-meta">
             <span class="duration-badge">{{ item.task_count || 0 }} tasks</span>
-            <span class="time-stamp">{{ item.date | date:'shortTime' }}</span>
+            <!-- <span class="time-stamp">{{ item.date | date:'medium' }}</span> -->
           </div>
           <p class="notes" *ngIf="item.notes">{{ truncateText(item.notes, 60) }}</p>
         </div>
