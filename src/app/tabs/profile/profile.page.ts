@@ -4,141 +4,126 @@ import { AlertController, NavController, PopoverController } from '@ionic/angula
 import { ProfileMenuComponent } from 'src/app/components/profile-menu/profile-menu.component';
 import { AlertsService } from 'src/app/services/alert/alerts';
 import { ApiService } from 'src/app/services/api/api.service';
-import { Authservices } from 'src/app/services/auth';
-
-
-
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
-  standalone:false
+  standalone: false
 })
 export class ProfilePage implements OnInit {
   profile: any;
   isPopoverOpen = false;
 
   constructor(
-    private api : ApiService, 
-    private navCtrl : NavController,
-    private popoverCtrl : PopoverController, 
-    private alert : AlertsService, 
-    private router : Router, 
-    private auth : Authservices, 
-    private alertCtrl : AlertController
-  ) { 
+    private apiservice: ApiService, 
+    private navCtrl: NavController,
+    private popoverCtrl: PopoverController, 
+    private alert: AlertsService, 
+    private router: Router, 
+    private alertCtrl: AlertController
+  ) { }
+
+  ngOnInit() {
     
   }
 
-  ngOnInit() {
-    this.getProfile();
+
+  ionViewWillEnter() {
+    setTimeout(async () => {
+      await this.getProfile();
+    }, 300);
   }
 
-  getProfile() {
-  this.api.getProfile().subscribe({
-    next: (res: any) => {
-      this.profile = res.data || res;
-    },
-    error: (err) => {
-      console.error('Gagal ambil profile', err);
+  async getProfile() {
+    try {
+      const res = await this.apiservice.getProgress();
+      this.profile = res;
+      console.log('Data profil lokal:', this.profile);
+    } catch (err) {
+      console.error('Gagal ambil profile lokal', err);
     }
-  });
-}
-
-async openMenu (ev: any) {
-  const popover = await this.popoverCtrl.create({
-    component: ProfileMenuComponent, 
-    event: ev, 
-    translucent: true
-  });
-
-  await popover.present(); 
-  const{ data } = await popover.onDidDismiss(); 
-  if (data === 'edit') {
-    this.navCtrl.navigateForward(['/editProfile'])
   }
 
-  if (data === 'password') {
-    this.navCtrl.navigateForward(['/updatePassword'])
-  }
-
-  if (data === 'logout') {
-      const isConfirmed = await this.alert.confirm('Yakin Mau Logout?');
+  async openMenu(ev: any) {
+    const popover = await this.popoverCtrl.create({
+      component: ProfileMenuComponent, 
+      event: ev, 
+      translucent: true
+    });
+    await popover.present(); 
+    const { data } = await popover.onDidDismiss(); 
+    if (data === 'edit') {
+      this.navCtrl.navigateForward(['/editProfile']);
+    }
+    if (data === 'password') {
+      this.navCtrl.navigateForward(['/updatePassword']);
+    }
+    if (data === 'logout') {
+      const isConfirmed = await this.alert.confirm('Yakin Mau Keluar Aplikasi?');
       if (isConfirmed) {
-        this.logout();
+        await this.logout();
       }
     }
-
-  if (data === "hapusakun") {
-    this.deleteAccount()
+    if (data === "resetData") {
+      this.deleteAccount();
+    }
   }
-}
 
-async deleteAccount() {
-  const alert = await this.alertCtrl.create({
-    header: 'Hapus Akun',
-    message: 'Masukkan password untuk konfirmasi',
-    inputs: [
-      {
-        name: 'password',
-        type: 'password',
-        placeholder: 'Password'
-      }
-    ],
-    buttons: [
-      {
-        text: 'Batal',
-        role: 'cancel'
-      },
-      {
-        text: 'Hapus',
-        handler: (data) => {
-          if (!data.password) {
-            this.alert.show('Password wajib diisi', 'error');
-            return false; // Mencegah alert tertutup karena ada error
-          }
-
-          this.confirmDelete(data.password);
-          return true; // Menutup alert dan memberi kepastian return ke TypeScript
+  async deleteAccount() {
+    const alert = await this.alertCtrl.create({
+      header: 'Hapus Semua Data',
+      message: 'Tindakan ini akan menghapus semua catatan jurnal dan progress tanaman kamu secara permanen dari HP ini. Ketik "HAPUS" untuk konfirmasi.',
+      inputs: [
+        {
+          name: 'confirmation',
+          type: 'text',
+          placeholder: 'Ketik HAPUS di sini'
         }
-      }
-    ]
-  });
+      ],
+      buttons: [
+        {
+          text: 'Batal',
+          role: 'cancel'
+        },
+        {
+          text: 'Hapus Permanen',
+          handler: async (data) => {
+            if (data.confirmation !== 'HAPUS') {
+              setTimeout(() => {
+                   this.alert.show('Konfirmasi kata tidak cocok', 'error');
+              }, 100)
+              return true;
+            }
 
-  await alert.present();
-}
+            await this.confirmDelete();
+            return true;
+          }
+        }
+      ]
+    });
 
-confirmDelete(password: string) {
-  this.api.deleteAccount(password).subscribe({
-    next: async () => {
-      await this.auth.removeToken();
-      this.alert.show('Akun berhasil dihapus', 'message');
-      this.router.navigate(['/login'], { replaceUrl: true });
-    },
-    error: (err) => {
-      console.log('DELETE ERROR:', err);
-      const msg = err?.error?.message || 'Gagal hapus akun';
-      this.alert.show(msg, 'error');
+    await alert.present();
+  }
+
+  async confirmDelete() {
+    try {
+      await this.apiservice.clearAllData();       
+      this.alert.show('Semua data berhasil dibersihkan', 'message');
+      this.router.navigate(['/welcome'], { replaceUrl: true });
+    } catch (err) {
+      console.error('Gagal membersihkan data:', err);
+      this.alert.show('Gagal mereset data aplikasi', 'error');
     }
-  });
-}
+  }
 
-
-logout(){
-  this.api.logout().subscribe({
-    next: async () => {
-    await this.auth.removeToken(); 
-      this.alert.show('berhasil logout', 'message'); 
-      this.router.navigate(['/login'], {replaceUrl: true});
-    }, 
-    error: async (err) => {
-      console.error('logout error:', err); 
-      await this.auth.removeToken();
-      this.alert.show('session habis, logout paksa', 'info'); 
-      this.router.navigate(['/login'], {replaceUrl: true});
+  async logout() {
+    try {
+      this.alert.show('Berhasil keluar dari sesi aktif', 'message');
+      await this.apiservice.clearProfileData();
+      this.navCtrl.navigateRoot('/welcome');
+    } catch (err) {
+      console.error('Logout error:', err);
     }
-  });
-}
-
+  }
 }

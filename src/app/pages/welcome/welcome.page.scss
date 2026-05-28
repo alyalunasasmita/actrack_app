@@ -1,0 +1,56 @@
+swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ion-background-color);
+}
+
+.slide-content {
+  padding: 20px;
+  max-width: 320px;
+  margin: 0 auto;
+
+  .icon-circle {
+    width: 100px;
+    height: 100px;
+    background: rgba(var(--ion-color-success-rgb), 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px auto;
+
+    ion-icon {
+      font-size: 50px;
+    }
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--ion-text-color);
+    margin-bottom: 15px;
+  }
+
+  p {
+    font-size: 15px;
+    color: var(--ion-color-medium);
+    line-height: 1.5;
+  }
+
+  .input-name {
+    --background: transparent;
+    border-radius: 10px;
+    margin-top: 25px;
+  }
+
+  .btn-start {
+    margin-top: 20px;
+    --border-radius: 10px;
+  }
+}

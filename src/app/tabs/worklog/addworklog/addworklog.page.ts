@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../../../services/api/api.service';
 import { AlertsService } from 'src/app/services/alert/alerts';
 import { NavController } from '@ionic/angular';
+import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
   selector: 'app-addworklog',
@@ -26,7 +26,7 @@ export class AddworklogPage implements OnInit {
   constructor(
     private router: Router,
     private navCtrl: NavController,
-    private api: ApiService,
+    private actrakService: ApiService,
     private alert: AlertsService
   ) { }
 
@@ -46,7 +46,6 @@ export class AddworklogPage implements OnInit {
   }
 
   validateForm(): boolean {
-  
     this.errorMessage = '';
     
     if (!this.form.activity || this.form.activity.trim() === '') {
@@ -54,7 +53,6 @@ export class AddworklogPage implements OnInit {
       return false;
     }
     
-
     if (!this.form.task_count || this.form.task_count <= 0) {
       this.errorMessage = 'Jumlah tugas harus diisi dan lebih dari 0';
       return false;
@@ -72,91 +70,57 @@ export class AddworklogPage implements OnInit {
 
     const startTime = this.formatTime(this.form.start);
     const endTime = this.formatTime(this.form.end);
-    const [startHour, startMinute] =
-      startTime.split(':').map(Number);
-    const [endHour, endMinute] =
-      endTime.split(':').map(Number);
-    const startTotal =
-      (startHour * 60) + startMinute;
-    const endTotal =
-      (endHour * 60) + endMinute;
-    console.log({
-      startTime,
-      endTime,
-      startTotal,
-      endTotal
-    });
+    const [startHour, startMinute] = startTime.split(':').map(Number);
+    const [endHour, endMinute] = endTime.split(':').map(Number);
+    
+    const startTotal = (startHour * 60) + startMinute;
+    const endTotal = (endHour * 60) + endMinute;
+
     if (endTotal <= startTotal) {
-      this.errorMessage =
-        'Waktu selesai harus lebih besar dari waktu mulai';
+      this.errorMessage = 'Waktu selesai harus lebih besar dari waktu mulai';
       return false;
     }
     
     return true;
   }
 
-  submit() {
-    if (!this.validateForm()) {
-      return;
+
+  async submit() {
+  if (!this.validateForm()) {
+    if (this.errorMessage) {
+      this.alert.show(this.errorMessage, 'error');
     }
-    
-    this.isSubmitting = true;
-    
-    const data = {
-      ...this.form,
-      date: this.formatDate(this.form.date), 
-      start: this.formatTime(this.form.start), 
-      end: this.formatTime(this.form.end),
-    };
-
-    console.log('Submitting data:', data);
-    
-    this.api.addWorklog(data).subscribe({
-      next: (res) => {
-        console.log('Success:', res); 
-        this.isSubmitting = false;
-        this.alert.show('Worklog berhasil ditambahkan'); 
-        
-        // Reset form
-        this.form = {
-          date: new Date().toISOString(),
-          activity: '',
-          task_count: '',
-          start: new Date().toISOString(),
-          end: new Date().toISOString(), 
-          notes: '',
-        };
-        
-        // Navigate back to worklog list
-        this.navCtrl.navigateBack('/tabs/worklog');
-      }, 
-      error: (err) => {
-
-        console.log('Error Full Detail:', err);
-        this.isSubmitting = false;
-        let message = 'Terjadi kesalahan';
-        if (err.error?.errors) {
-          const errors = Object.values(err.error.errors);
-          message = errors
-            .map((e: any) => e[0])
-            .join(', ');
-
-        }
-        else if (err.error?.message) {
-          message = err.error.message;
-
-        }
-        else if (err.status === 0) {
-          message = 'Tidak dapat terhubung ke server';
-
-        }
-        this.alert.show(
-          'Gagal tambah data: ' + message,
-          'error'
-        );
-      }
-    });
+    return;
   }
+  this.isSubmitting = true;
+
+  const formattedDate = String(this.formatDate(this.form.date));
+  const formattedStart = String(this.formatTime(this.form.start));
+  const formattedEnd = String(this.formatTime(this.form.end));
+  const cleanActivity = String(this.form.activity);
+  const cleanTaskCount = Number(this.form.task_count);
+  const cleanNotes = this.form.notes ? String(this.form.notes) : '';
+  
+  try {
+    await this.actrakService.addWorklog(
+      cleanActivity,
+      cleanTaskCount,
+      formattedStart,
+      formattedEnd,
+      cleanNotes,
+      formattedDate
+    );
+    await this.actrakService.updateProgress();
+    this.isSubmitting = false;
+    this.alert.show('Worklog berhasil ditambahkan & Tanamanmu tumbuh!'); 
+    this.resetForm();
+    this.navCtrl.navigateBack('/tabs/worklog');
+  } catch (err) {
+    console.error('Error saving local worklog:', err);
+    this.isSubmitting = false;
+    this.alert.show('Gagal menyimpan jurnal', 'error');
+  }
+}
 
   resetForm() {
     this.form = {

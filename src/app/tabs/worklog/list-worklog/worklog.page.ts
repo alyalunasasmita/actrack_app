@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../../../services/api/api.service';
 import { NavController } from '@ionic/angular';
+import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
   selector: 'app-worklog',
@@ -19,32 +19,38 @@ export class WorklogPage {
   tempSelectedDate: string = '';
   loading = true; 
   worklog: any[] = []; 
+  isInitialEmpty: boolean = false; 
 
   constructor(
-    private api: ApiService, 
+    private actrakService: ApiService,
     private router: Router,
     private navCtrl: NavController
   ) {}
 
   ionViewWillEnter() {
-    this.loadData();
+    setTimeout(async () => {
+      await this.loadData();
+    }, 300);
   }
 
-  loadData() {
+  async loadData() {
     this.loading = true; 
-    this.api.getWorklogs().subscribe({
-      next: (res: any) => {
-        const data = res.data || res;
-        this.allWorklogs = data;
+    try {
+      const data = await this.actrakService.getWorklogs(); 
+      if (!data || data.length === 0){
+        this.isInitialEmpty = true;
+        this.worklogs = [];
+        this.allWorklogs = [];
+      } else {
+        this.isInitialEmpty = false;
+        this.allWorklogs = [...data]; 
         this.worklogs = [...data];
-        this.loading = false;
-        console.log('DATA WORKLOG:', this.allWorklogs);
-      }, 
-      error: () => {
-        this.loading = false;
-        console.error('Error loading worklogs');
       }
-    });
+    } catch (error) {
+      console.error('Error loading worklogs from storage', error);
+    } finally {
+      this.loading = false;
+    }
   }
 
   addWorklog() {
@@ -63,7 +69,7 @@ export class WorklogPage {
 
   onSearch(event: any) {
     if (event && event.target) {
-      this.searchKeyword = event.target.value?.toLowerCase() || '';
+      this.searchKeyword = event.target.value || '';
     }
     this.applyFilters();
   }
@@ -76,28 +82,31 @@ export class WorklogPage {
   resetFilters() {
     this.searchKeyword = '';
     this.selectedDate = '';
-    this.worklogs = [...this.allWorklogs];
+    this.tempSelectedDate = '';
+    this.applyFilters();
   }
 
   applyFilters() {
     let filtered = [...this.allWorklogs];
     
     if (this.searchKeyword && this.searchKeyword.trim() !== '') {
+      const keyword = this.searchKeyword.toLowerCase().trim();
+      
       filtered = filtered.filter(item => {
-        const activityMatch = item.activity?.toLowerCase().includes(this.searchKeyword);
-        const notesMatch = item.notes?.toLowerCase().includes(this.searchKeyword);
+        const activityMatch = item.activity ? item.activity.toLowerCase().includes(keyword) : false;
+        const notesMatch = item.notes ? item.notes.toLowerCase().includes(keyword) : false;
         return activityMatch || notesMatch;
       });
     }
     
     if (this.selectedDate && this.selectedDate.trim() !== '') {
+      const filterDate = this.selectedDate.substring(0, 10); 
+      
       filtered = filtered.filter(item => {
-        const itemDate = item.date ? item.date.split('T')[0] : '';
-        const filterDate = this.selectedDate.split('T')[0];
+        const itemDate = item.date ? item.date.substring(0, 10) : '';
         return itemDate === filterDate;
       });
     }
-    
     this.worklogs = filtered;
   }
 
@@ -105,20 +114,16 @@ export class WorklogPage {
     this.router.navigate(['/tabs/detail-worklog', item.id]);
   }
 
-
   toggleDatePicker() {
     this.showDatePicker = !this.showDatePicker;
     if (this.showDatePicker) {
-      // Set temporary date to current selected date or today
       this.tempSelectedDate = this.selectedDate || new Date().toISOString();
     }
   }
 
-
   closeDatePicker() {
     this.showDatePicker = false;
   }
-
 
   onDateChange(event: any) {
     if (event && event.detail && event.detail.value) {
@@ -126,10 +131,9 @@ export class WorklogPage {
     }
   }
 
-
   applyDateFilter() {
     if (this.tempSelectedDate) {
-      this.selectedDate = this.tempSelectedDate.split('T')[0];
+      this.selectedDate = this.tempSelectedDate;
     } else {
       this.selectedDate = '';
     }

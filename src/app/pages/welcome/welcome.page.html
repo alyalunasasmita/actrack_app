@@ -1,0 +1,54 @@
+<ion-content class="ion-padding">
+
+  <swiper-container 
+    pagination="true" 
+    navigation="true"
+    style="--swiper-pagination-color: var(--ion-color-success); --swiper-pagination-bullet-inactive-color: #999; --swiper-navigation-color: var(--ion-color-success);">
+    
+    <swiper-slide class="ion-text-center">
+      <div class="slide-content">
+        <div class="icon-circle">
+          <ion-icon name="book-outline" color="success"></ion-icon>
+        </div>
+        <h2>Catat Jurnal Harianmu</h2>
+        <p>Tulis semua pencapaian, kendala, dan aktivitas kerjamu setiap hari dengan mudah, kapan saja dan di mana saja secara offline.</p>
+      </div>
+    </swiper-slide>
+
+    <swiper-slide class="ion-text-center">
+      <div class="slide-content">
+        <div class="icon-circle">
+          <ion-icon name="leaf-outline" color="success"></ion-icon>
+        </div>
+        <h2>Tumbuhkan Tanaman Virtual</h2>
+        <p>Setiap kali kamu rajin mengisi worklog, tanamanmu akan mendapatkan poin pertumbuhan. Jaga konsistensi agar tanaman tidak layu!</p>
+      </div>
+    </swiper-slide>
+
+    <swiper-slide class="ion-text-center">
+      <div class="slide-content">
+        <div class="icon-circle">
+          <ion-icon name="person-circle-outline" color="success"></ion-icon>
+        </div>
+        <h2>Mari Saling Mengenal</h2>
+        <p>Sebelum memulai petualangan produktivitasmu, beri tahu kami nama panggilarmu ya!</p>
+
+        <ion-item lines="outline" class="ion-margin-top input-name">
+          <ion-input 
+            label="Nama Kamu" 
+            labelPlacement="floating" 
+            placeholder="Masukkan nama panggilan" 
+            [(ngModel)]="username"
+            type="text">
+          </ion-input>
+        </ion-item>
+
+        <ion-button expand="block" color="success" class="ion-margin-top btn-start" (click)="saveNameAndStart()">
+          Mulai Sekarang
+          <ion-icon name="rocket-outline" slot="end"></ion-icon>
+        </ion-button>
+      </div>
+    </swiper-slide>
+
+  </swiper-container>
+</ion-content>

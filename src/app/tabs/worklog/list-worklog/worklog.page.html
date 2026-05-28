@@ -1,14 +1,15 @@
 <ion-content [fullscreen]="true" class="forest-theme">
 
-
   <main class="content-wrapper">
-        <div class="search-container">
+    <div class="search-container">
       <div class="search-box">
         <ion-icon name="search-outline" class="search-icon"></ion-icon>
+        <!-- KUNCI 1: Biarkan ngModel bekerja murni menangkap ketikan user -->
         <ion-input 
           placeholder="Search worklogs..." 
           [(ngModel)]="searchKeyword"
-          (ionInput)="onSearch($event)"
+          [value]="searchKeyword"
+            (ionInput)="onSearch($event)"
           class="custom-input">
         </ion-input>
         <ion-button fill="clear" *ngIf="searchKeyword" (click)="clearSearch()">
@@ -16,9 +17,11 @@
         </ion-button>
       </div>
       
-      <ion-button class="filter-btn" (click)="toggleDatePicker()">
-        <ion-icon slot="icon-only" name="calendar-outline"></ion-icon>
-      </ion-button>
+      <div class="filter-wrapper">
+        <ion-button class="filter-btn" (click)="toggleDatePicker()" [class.active-filter]="selectedDate">
+          <ion-icon slot="icon-only" name="calendar-outline"></ion-icon>
+        </ion-button>
+      </div>
     </div>
 
     <div class="date-picker-overlay" *ngIf="showDatePicker">
@@ -51,18 +54,27 @@
           <h3 class="activity-title">{{ truncateText(item.activity, 40) }}</h3>
           <div class="item-meta">
             <span class="duration-badge">{{ item.task_count || 0 }} tasks</span>
-            <!-- <span class="time-stamp">{{ item.date | date:'medium' }}</span> -->
           </div>
           <p class="notes" *ngIf="item.notes">{{ truncateText(item.notes, 60) }}</p>
         </div>
       </div>
     </div>
 
-    <div class="empty-state" *ngIf="!loading && worklogs.length === 0">
-      <ion-icon name="leaf-outline" class="empty-icon"></ion-icon>
-      <h4>No entries found</h4>
-      <p>Try adjusting your search or date filter.</p>
-      <ion-button fill="outline" (click)="resetFilters()">Reset Filters</ion-button>
+    <div class="blank-page-state" *ngIf="!loading && isInitialEmpty">
+      <div class="blank-content">
+        <ion-icon name="leaf-outline" class="blank-icon"></ion-icon>
+        <h3>Belum ada jurnal kerja terbaru.</h3>
+        <p class="sub-blank">Ketuk tombol + di bawah untuk memulai data pertamamu!</p>
+      </div>
+    </div>
+
+   
+    <div class="empty-state" *ngIf="!loading && !isInitialEmpty && (searchKeyword || selectedDate) && worklogs.length === 0">
+      <div class="empty-content">
+        <ion-icon name="search-outline" class="empty-icon"></ion-icon>
+        <h4>Data yang kamu cari tidak ada</h4>
+        <ion-button fill="outline" (click)="resetFilters()">Reset Filters</ion-button>
+      </div>
     </div>
   </main>
 

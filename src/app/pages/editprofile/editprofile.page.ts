@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { AlertsService } from 'src/app/services/alert/alerts';
+
 import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({

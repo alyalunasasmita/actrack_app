@@ -18,21 +18,29 @@ export class StatisticPage implements OnInit {
   totalTasks = 0;
   bestDay = '';
 
-  constructor(private api: ApiService) {}
+  constructor(private actrakService: ApiService) {} 
 
-  ngOnInit() {
-    this.loadData();
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
-    this.loadData();
+    setTimeout(async () => {
+      await this.loadData();
+    }, 300);
   }
 
-  loadData() {
-    this.api.getWorklogs().subscribe((res: any) => {
-      const data = res.data || res;
+  async loadData() {
+    try {
+      const res = await this.actrakService.getWorklogs();
+      const data = res.data || res || [];
 
       this.totalWorklogs = data.length;
+
+      if (this.totalWorklogs === 0) {
+        this.totalTasks = 0;
+        this.bestDay = 'Belum ada data';
+        if (this.chart) this.chart.destroy();
+        return;
+      }
 
       this.totalTasks = data.reduce((sum: number, item: any) => {
         return sum + parseInt(item.task_count || 0);
@@ -41,10 +49,12 @@ export class StatisticPage implements OnInit {
       const grouped: any = {};
 
       data.forEach((item: any) => {
-        const date = item.date;
+        const date = item.date ? item.date.split('T')[0] : '';
         const task = parseInt(item.task_count) || 0;
 
-        grouped[date] = (grouped[date] || 0) + task;
+        if (date) {
+          grouped[date] = (grouped[date] || 0) + task;
+        }
       });
 
       const labels = Object.keys(grouped);
@@ -52,7 +62,15 @@ export class StatisticPage implements OnInit {
 
       const max = Math.max(...values);
       const index = values.indexOf(max);
-      this.bestDay = labels[index];
+      
+      const rawBestDay = labels[index];
+      
+      // PERBAIKAN: Menggunakan month: 'long' agar sesuai dengan kamus bulan di getDayName
+      this.bestDay = rawBestDay ? new Date(rawBestDay).toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      }) : 'Belum ada data';
 
       const formatLabel = labels.map(date =>
         new Date(date).toLocaleDateString('id-ID', {
@@ -60,21 +78,19 @@ export class StatisticPage implements OnInit {
           month: 'short'
         })
       );
-
+      
       if (this.chart) {
         this.chart.destroy();
       }
 
-      setTimeout(() => {
-        if (this.chartRef && this.chartRef.nativeElement) {
-                  this.chart = new Chart(this.chartRef.nativeElement, {
+      if (this.chartRef && this.chartRef.nativeElement) {
+        this.chart = new Chart(this.chartRef.nativeElement, {
           type: 'bar',
           data: {
             labels: formatLabel,
             datasets: [{
               label: 'Tasks',
               data: values,
-
               backgroundColor: 'rgba(41, 104, 97, 0.7)', 
               borderColor: 'rgba(41, 104, 97, 1)',
               borderWidth: 0,
@@ -87,9 +103,7 @@ export class StatisticPage implements OnInit {
             responsive: true,
             maintainAspectRatio: false, 
             plugins: {
-              legend: {
-                display: false,
-              },
+              legend: { display: false },
               tooltip: {
                 backgroundColor: '#191c1d',
                 padding: 12,
@@ -103,10 +117,7 @@ export class StatisticPage implements OnInit {
               y: {
                 beginAtZero: true,
                 border: { display: false }, 
-                grid: {
-                  color: '#f0f0f0',
-                  drawTicks: false,
-                },
+                grid: { color: '#f0f0f0', drawTicks: false },
                 ticks: {
                   color: '#949f9d',
                   stepSize: 1,
@@ -115,24 +126,49 @@ export class StatisticPage implements OnInit {
               },
               x: {
                 border: { display: false },
-                grid: {
-                  display: false 
-                },
+                grid: { display: false },
                 ticks: {
                   color: '#6f7977',
                   font: { family: 'Plus Jakarta Sans', size: 11 }
                 }
               }
             },
-            layout: {
-              padding: {
-                top: 10
-              }
-            }
+            layout: { padding: { top: 10 } }
           }
         });
-        }
-      }, 100);
-    });
+      }
+    } catch (error) {
+      console.error('Gagal memuat statistik dari data lokal:', error);
+    }
+  }
+
+  
+  getDayName(dateString: string): string {
+    if (!dateString || dateString === 'Belum ada data') {
+      return 'Belum ada data';
+    }
+    try {
+      const months: { [key: string]: number } = {
+        'Januari': 0, 'Februari': 1, 'Maret': 2, 'April': 3, 'Mei': 4, 'Juni': 5,
+        'Juli': 6, 'Agustus': 7, 'September': 8, 'Oktober': 9, 'November': 10, 'Desember': 11
+      };
+
+      const parts = dateString.split(' ');
+      if (parts.length === 3) {
+        const day = parseInt(parts[0], 10);
+        const month = months[parts[1]];
+        const year = parseInt(parts[2], 10);
+        
+        // Cek validasi proteksi jika nama bulan tidak terdeteksi di kamus
+        if (month === undefined) return dateString;
+
+        const dateObj = new Date(year, month, day);
+        const daysIndo = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        return daysIndo[dateObj.getDay()];
+      }
+    } catch (e) {
+      console.error('Gagal konversi hari:', e);
+    }
+    return dateString;
   }
 }

@@ -1,3 +1,135 @@
+.main-splash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #f6f6f6; // Background gelap bertema kalem
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999; // Angka tertinggi agar berada di lapisan paling depan
+  transition: opacity 0.5s ease-out; // Transisi halus saat menghilang
+
+  // Efek memudar saat class .fade-out ditambahkan lewat TypeScript
+  &.fade-out {
+    opacity: 0;
+  }
+}
+
+.splash-content {
+  text-align: center;
+
+  .logo-container {
+    position: relative;
+    display: inline-block;
+    
+    .leaf-icon {
+      max-width: 150px;
+      max-height: 150px;
+      width: auto;
+      height: auto;
+      color: #296861;
+      animation: growIn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .pulse-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 160px;
+      height: 160px;
+      border: 2px solid rgba(41, 104, 97, 0.4);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+  }
+
+
+  .app-name {
+    color: #296861;
+    font-family: 'nunito', sans-serif;
+    font-size: 38px;
+    letter-spacing: 4px;
+    margin-top: 25px;
+    font-weight: 800;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.6s forwards; 
+  }
+}
+
+.loading-bar {
+  width: 150px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 20px auto 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  
+  .progress {
+    width: 100%;
+    height: 100%;
+    background: #296861;
+    transform: translateX(-100%);
+    animation: loading 2.5s ease-in-out forwards; 
+  }
+}
+
+
+ion-router-outlet.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+ion-router-outlet {
+  transition: opacity 0.3s ease-in;
+}
+
+@keyframes growIn {
+  0% { 
+    transform: scale(0) rotate(-45deg); 
+    opacity: 0; 
+  }
+  100% { 
+    transform: scale(1) rotate(0deg); 
+    opacity: 1; 
+  }
+}
+
+@keyframes fadeInUp {
+  0% { 
+    transform: translateY(20px); 
+    opacity: 0; 
+  }
+  100% { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes pulse {
+  0% { 
+    width: 80px; 
+    height: 80px; 
+    opacity: 0.6; 
+  }
+  100% { 
+    width: 200px; 
+    height: 200px; 
+    opacity: 0; 
+  }
+}
+
+@keyframes loading {
+  0% { 
+    transform: translateX(-100%); 
+  }
+  100% { 
+    transform: translateX(0); 
+  }
+}
+
 .alert-wrapper {
   position: fixed;
   top: 0;
@@ -72,3 +204,11 @@
     opacity: 1;
   }
 }
+
+ion-router-outlet[hidden] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+

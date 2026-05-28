@@ -1,14 +1,27 @@
 <ion-app>
 
-  <!-- ALERT GLOBAL -->
+  <div class="main-splash" *ngIf="showSplash" [class.fade-out]="fadeOut">
+    <div class="splash-content">
+      <div class="logo-container">
+        <img src="assets/icon/icon.png" class="leaf-icon" alt="logo actrack">
+        <div class="pulse-ring"></div>
+      </div>
+      <h1 class="app-name">actrack</h1>
+      <div class="loading-bar">
+        <div class="progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <ion-router-outlet [class.hidden]="showSplash && !fadeOut"></ion-router-outlet>
+
+  <div class="custom-alert-overlay" *ngIf="alert"></div>
+
   <div *ngIf="alert" class="alert-wrapper">
-
     <div class="alert-box" [ngClass]="alert.type">
-
       <div class="msg">
         {{ alert.message }}
       </div>
-
       <div *ngIf="alert.mode === 'confirm'" class="actions">
         <ion-button fill="clear" color="medium" (click)="cancel()">
           Batal
@@ -17,12 +30,7 @@
           Ya
         </ion-button>
       </div>
-
     </div>
-
   </div>
-
-  <!-- ROUTER -->
-  <ion-router-outlet></ion-router-outlet>
 
 </ion-app>

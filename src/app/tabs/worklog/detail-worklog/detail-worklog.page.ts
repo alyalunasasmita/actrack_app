@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '../../../services/api/api.service';
 import { NavController } from '@ionic/angular';
 import { AlertsService } from 'src/app/services/alert/alerts';
+import { ApiService } from 'src/app/services/api/api.service';
+
 
 @Component({
   selector: 'app-detail-worklog',
@@ -17,70 +18,73 @@ export class DetailWorklogPage implements OnInit {
   constructor(
     private route: ActivatedRoute, 
     private router: Router, 
-    private api: ApiService,
+    private actrakService: ApiService, // <-- 2. GANTI API SERVICE JADI SERVICE LOKAL
     private alert: AlertsService,
     private navCtrl: NavController
   ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id'); 
-
   }
 
   ionViewWillEnter(){
-    this.loadData()
+    // Beri jeda tipis agar sinkronisasi storage lokal berjalan aman
+    setTimeout(async () => {
+      await this.loadData();
+    }, 300);
   }
 
-  loadData() {
-    this.api.getWorklogs().subscribe({
-      next: (res: any) => {
-        const data = res.data || res; 
-        this.worklog = data.find((item: any) => item.id == this.id);
-        if (!this.worklog) {
-          this.alert.show('Data tidak ditemukan', 'error');
-          this.navCtrl.navigateBack('/tabs/worklog');
-        }
-      },
-      error: (err) => {
-        console.error('Error loading worklog:', err);
-        this.alert.show('Gagal memuat data', 'error');
+  // 3. UBAH MENJADI ASYNC/AWAIT UNTUK MEMBACA STORAGE LOKAL
+  async loadData() {
+    try {
+      const res = await this.actrakService.getWorklogs();
+      const data = res.data || res; 
+      
+      // Cari data berdasarkan ID (menggunakan == agar toleran terhadap tipe data string/number)
+      this.worklog = data.find((item: any) => item.id == this.id);
+      
+      if (!this.worklog) {
+        this.alert.show('Data tidak ditemukan', 'error');
         this.navCtrl.navigateBack('/tabs/worklog');
       }
-    });
+    } catch (err) {
+      console.error('Error loading worklog from storage:', err);
+      this.alert.show('Gagal memuat data', 'error');
+      this.navCtrl.navigateBack('/tabs/worklog');
+    }
   }
 
   edit() {
     this.router.navigate(['/tabs/edit-worklog', this.id]);
   }
 
-  delete() {
-    this.api.deleteWorklog(this.id).subscribe({
-      next: () => {
-        this.alert.show('Data berhasil dihapus', 'message');
-        this.navCtrl.navigateRoot('/tabs/worklog');
-      },
-      error: (err) => {
-        console.error('Delete error:', err);
-        this.alert.show('Gagal menghapus data', 'error');
-      }
-    });
-
+  async delete() {
+    try {
+      // Panggil fungsi hapus dari database lokal internal HP
+      await this.actrakService.deleteWorklog(this.id);
+      
+      this.alert.show('Data berhasil dihapus', 'message');
+      this.navCtrl.navigateRoot('/tabs/worklog');
+    } catch (err) {
+      console.error('Delete error on storage:', err);
+      this.alert.show('Gagal menghapus data dari memori', 'error');
+    }
+    
     console.log('ppap');
   }
 
- async confirmDelete() {
-  const isConfirmed = await this.alert.confirm('Yakin untuk menghapus worklog?');
-
-  if (isConfirmed) {
-    this.delete(); 
+  async confirmDelete() {
+    const isConfirmed = await this.alert.confirm('Yakin untuk menghapus worklog?');
+    if (isConfirmed) {
+      this.delete(); 
+    }
   }
-}
-
 
   goBack() {
-    this.navCtrl.navigateForward(['/tabs/worklog'])
+    this.navCtrl.navigateForward(['/tabs/worklog']);
   }
 
+  // Fungsi perhitungan durasimu tetap sama, tidak perlu disentuh
   calculateDuration(): any {
     if (!this.worklog?.start || !this.worklog?.end) return '';
 
