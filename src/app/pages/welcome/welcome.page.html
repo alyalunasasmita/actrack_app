@@ -43,10 +43,13 @@
           </ion-input>
         </ion-item>
 
-        <ion-button expand="block" color="success" class="ion-margin-top btn-start" (click)="saveNameAndStart()">
-          Mulai Sekarang
-          <ion-icon name="rocket-outline" slot="end"></ion-icon>
-        </ion-button>
+        <ion-button expand="block" color="success" class="ion-margin-top btn-start" (click)="saveNameAndStart()" [disabled]="isLoading">
+        <ion-spinner *ngIf="isLoading" name="crescent" slot="start">
+        </ion-spinner>
+        {{ isLoading ? 'Memproses...' : 'Mulai Sekarang' }}
+        <ion-icon *ngIf="!isLoading" name="rocket-outline" slot="end">
+        </ion-icon>
+      </ion-button>
       </div>
     </swiper-slide>
 

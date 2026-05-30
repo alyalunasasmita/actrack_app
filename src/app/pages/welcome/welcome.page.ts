@@ -30,23 +30,22 @@ export class WelcomePage implements OnInit {
     }, 300);
   }
 
+  isLoading = false;
+
   async saveNameAndStart() {
   if (!this.username || this.username.trim() === '') {
     this.alert.show('Silakan masukkan nama kamu terlebih dahulu ya!');
     return;
   }
   try {
-    // 1. Simpan nama ke storage lewat service (ini otomatis menunggu storage ready)
+    this.isLoading = true;
     await this.apiService.saveWelcomeName(this.username.trim());
-    
-    // 2. Aktifkan tiket bypass instan untuk guard
     this.apiService.isJustLoggedIn = true; 
-    
-    // 3. Berpindah rute dengan aman
     this.navCtrl.navigateRoot('/tabs');
-
   } catch (err) {
     console.error('Gagal mengunci nama user baru di storage:', err);
+  }finally{
+    this.isLoading = false;
   }
 }
 }
