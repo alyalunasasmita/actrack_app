@@ -1,6 +1,36 @@
+// Memaksa konten utama memenuhi layar dan fleksibel
+.welcome-container {
+  --display: flex;
+  --flex-direction: column;
+  height: 100%;
+}
+
+// Layout header tombol atas
+.nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 10;
+  min-height: 40px;
+  
+  .nav-left, .nav-right {
+    min-width: 80px;
+  }
+  .nav-right {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+// Pengaturan Swiper agar memenuhi layar tinggi penuh
 swiper-container {
   width: 100%;
   height: 100%;
+  --swiper-pagination-bottom: 40px; /* Menaikkan sedikit posisi dots bawah */
 }
 
 swiper-slide {
@@ -8,10 +38,12 @@ swiper-slide {
   align-items: center;
   justify-content: center;
   background: var(--ion-background-color);
+  height: 100%;
 }
 
 .slide-content {
   padding: 20px;
+  width: 100%;
   max-width: 320px;
   margin: 0 auto;
 
@@ -47,6 +79,7 @@ swiper-slide {
     --background: transparent;
     border-radius: 10px;
     margin-top: 25px;
+    text-align: left;
   }
 
   .btn-start {

@@ -1,9 +1,27 @@
-<ion-content class="ion-padding">
+<ion-content class="ion-padding welcome-container">
+  
+  <div class="nav-header">
+    <div class="nav-header">
+    <div class="nav-left">
+      <ion-button *ngIf="currentSlideIndex > 0" fill="clear" size="small" color="medium" (click)="goToPreviousSlide()">
+        <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+        Kembali
+      </ion-button>
+    </div>
+
+    <div class="nav-right">
+      <ion-button *ngIf="!isLastSlide" fill="clear" size="small" color="success" (click)="skipToPrivacy()">
+        Lewati
+      </ion-button>
+    </div>
+  </div>
+  </div>
 
   <swiper-container 
+    #swiperRef
     pagination="true" 
-    navigation="true"
-    style="--swiper-pagination-color: var(--ion-color-success); --swiper-pagination-bullet-inactive-color: #999; --swiper-navigation-color: var(--ion-color-success);">
+    (swiperslidechange)="onSlideChange($event)"
+    style="--swiper-pagination-color: var(--ion-color-success); --swiper-pagination-bullet-inactive-color: #999;">
     
     <swiper-slide class="ion-text-center">
       <div class="slide-content">
@@ -31,7 +49,7 @@
           <ion-icon name="person-circle-outline" color="success"></ion-icon>
         </div>
         <h2>Mari Saling Mengenal</h2>
-        <p>Sebelum memulai petualangan produktivitasmu, beri tahu kami nama panggilarmu ya!</p>
+        <p>Sebelum memulai petualangan produktivitasmu, beri tahu kami nama panggilanmu ya!</p>
 
         <ion-item lines="outline" class="ion-margin-top input-name">
           <ion-input 
@@ -43,13 +61,16 @@
           </ion-input>
         </ion-item>
 
-        <ion-button expand="block" color="success" class="ion-margin-top btn-start" (click)="saveNameAndStart()" [disabled]="isLoading">
-        <ion-spinner *ngIf="isLoading" name="crescent" slot="start">
-        </ion-spinner>
-        {{ isLoading ? 'Memproses...' : 'Mulai Sekarang' }}
-        <ion-icon *ngIf="!isLoading" name="rocket-outline" slot="end">
-        </ion-icon>
-      </ion-button>
+        <ion-button 
+          expand="block" 
+          color="success" 
+          class="ion-margin-top btn-start" 
+          (click)="saveNameAndStart()" 
+          [disabled]="!username || username.trim() === '' || isLoading">
+          <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
+          {{ isLoading ? 'Memproses...' : 'Mulai Sekarang' }}
+          <ion-icon *ngIf="!isLoading" name="rocket-outline" slot="end"></ion-icon>
+        </ion-button>
       </div>
     </swiper-slide>
 

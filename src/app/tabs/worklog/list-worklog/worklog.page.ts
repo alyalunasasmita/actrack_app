@@ -43,8 +43,13 @@ export class WorklogPage {
         this.allWorklogs = [];
       } else {
         this.isInitialEmpty = false;
-        this.allWorklogs = [...data]; 
-        this.worklogs = [...data];
+
+        const sortedData = [...data].sort((a, b) => {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
+
+        this.allWorklogs = sortedData; 
+        this.worklogs = sortedData;
       }
     } catch (error) {
       console.error('Error loading worklogs from storage', error);

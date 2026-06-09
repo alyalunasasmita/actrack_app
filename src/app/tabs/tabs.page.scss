@@ -1,18 +1,18 @@
 ion-tab-bar {
   --background: #ffffff;
-  --border: none; // Hapus garis kaku
+  --border: none; 
   height: 65px;
-  padding-bottom: 5px; // Beri ruang untuk gesture bar iPhone/Android baru
+  padding-bottom: 5px; 
   
-  /* Efek Bayangan Halus agar Tab terlihat "Floating" */
+
   box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
-  border-top-left-radius: 20px; // Opsional: bikin sudut atas melengkung
+  border-top-left-radius: 20px; 
   border-top-right-radius: 20px;
 }
 
 ion-tab-button {
-  --color: #a0a0a0; // Warna saat tidak aktif (abu-abu lembut)
-  --color-selected: #4CAF50; // Warna hijau kamu
+  --color: #a0a0a0; 
+  --color-selected: #4CAF50; 
   transition: all 0.3s ease;
 
   ion-label {
@@ -23,15 +23,14 @@ ion-tab-button {
   }
 
   ion-icon {
-    font-size: 24px; // Sedikit lebih besar
+    font-size: 24px; 
     margin-bottom: 2px;
   }
 }
 
-/* Tab Aktif Styling */
+
 ion-tab-button.tab-selected {
   ion-icon {
-    /* Skala saat terpilih */
     transform: translateY(-2px) scale(1.1);
     filter: drop-shadow(0 4px 8px rgba(76, 175, 80, 0.3)); // Glow hijau tipis
   }
@@ -41,7 +40,6 @@ ion-tab-button.tab-selected {
   }
 }
 
-/* Animasi Bounce yang lebih halus */
 @keyframes bounce {
   0% { transform: translateY(0) scale(1); }
   50% { transform: translateY(-5px) scale(1.2); }
@@ -52,9 +50,9 @@ ion-tab-button.tab-selected ion-icon {
   animation: bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Efek saat ditekan (feedback) */
+
 ion-tab-button:active {
-  background: transparent; // Hilangkan highlight abu-abu bawaan ionic
+  background: transparent; 
   ion-icon {
     transform: scale(0.9);
   }

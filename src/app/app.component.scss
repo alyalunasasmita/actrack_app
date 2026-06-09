@@ -4,68 +4,80 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: #f6f6f6; // Background gelap bertema kalem
+  background: #f6f6f6; 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 99999; // Angka tertinggi agar berada di lapisan paling depan
-  transition: opacity 0.5s ease-out; // Transisi halus saat menghilang
+  z-index: 99999; 
+  transition: opacity 0.5s ease-out; 
 
-  // Efek memudar saat class .fade-out ditambahkan lewat TypeScript
   &.fade-out {
     opacity: 0;
   }
 }
 
 .splash-content {
-  text-align: center;
+  position: relative;
+  width: 100vw;
+  height: 180px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   .logo-container {
-    position: relative;
-    display: inline-block;
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+    animation: growIn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+               shiftLeftBounce 0.8s cubic-bezier(0.25, 1, 0.5, 1) 1.5s forwards; 
     
     .leaf-icon {
-      max-width: 150px;
-      max-height: 150px;
+      max-width: 120px;
+      max-height: 120px;
       width: auto;
       height: auto;
-      color: #296861;
-      animation: growIn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      display: block;
     }
 
     .pulse-ring {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 160px;
-      height: 160px;
+      width: 130px;
+      height: 130px;
       border: 2px solid rgba(41, 104, 97, 0.4);
       border-radius: 50%;
       animation: pulse 2s infinite;
     }
   }
 
-
   .app-name {
+    position: absolute;
     color: #296861;
     font-family: 'nunito', sans-serif;
-    font-size: 38px;
-    letter-spacing: 4px;
-    margin-top: 25px;
+    font-size: 42px; 
+    letter-spacing: 3px;
     font-weight: 800;
+    white-space: nowrap;
+    margin: 0;
     opacity: 0;
-    animation: fadeInUp 0.8s ease-out 0.6s forwards; 
+
+    animation: revealAndFadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) 1.5s forwards; 
   }
 }
 
 .loading-bar {
   width: 150px;
   height: 3px;
-  background: rgba(255, 255, 255, 0.1);
-  margin: 20px auto 0 auto;
+  background: rgba(41, 104, 97, 0.1);
+  margin: 15px auto 0 auto;
   border-radius: 10px;
   overflow: hidden;
+  position: relative;
+  z-index: 10;
   
   .progress {
     width: 100%;
@@ -76,7 +88,51 @@
   }
 }
 
+// KEYFRAMES SPLASH SCREEN
+@keyframes growIn {
+  0% { transform: translate(0, 0) scale(0) rotate(-45deg); opacity: 0; }
+  100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes shiftLeftBounce {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-90px, 0);
+  }
+}
+@keyframes revealTextRight {
+  0% { opacity: 0; transform: translate(0, 0); }
+  100% { opacity: 1; transform: translate(80px, 0); } // Nama meluncur mantul ke kanan
+}
+@keyframes pulse {
+  0% { width: 80px; height: 80px; opacity: 0.6; }
+  100% { width: 190px; height: 190px; opacity: 0; }
+}
+@keyframes loading {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+@keyframes revealAndFadeIn {
+  0% {
+    opacity: 0;
+    transform: translate(-30px, 0); // Mulai agak dekat/sembunyi di area logo
+    clip-path: inset(0 100% 0 0);   // Memotong teks agar tidak kelihatan di awal meluncur
+  }
+  30% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(75px, 0);  // Bergeser menetap di sebelah kanan logo dengan pas
+    clip-path: inset(0 0 0 0);      // Menampilkan teks actrack secara utuh penuh
+  }
+}
 
+
+// ===================================================
+// 2. KODE ASLI DOSEN (ION-ROUTER & CUSTOM ALERT) - TETAP AMAN
+// ===================================================
 ion-router-outlet.hidden {
   opacity: 0;
   visibility: hidden;
@@ -86,48 +142,10 @@ ion-router-outlet {
   transition: opacity 0.3s ease-in;
 }
 
-@keyframes growIn {
-  0% { 
-    transform: scale(0) rotate(-45deg); 
-    opacity: 0; 
-  }
-  100% { 
-    transform: scale(1) rotate(0deg); 
-    opacity: 1; 
-  }
-}
-
-@keyframes fadeInUp {
-  0% { 
-    transform: translateY(20px); 
-    opacity: 0; 
-  }
-  100% { 
-    transform: translateY(0); 
-    opacity: 1; 
-  }
-}
-
-@keyframes pulse {
-  0% { 
-    width: 80px; 
-    height: 80px; 
-    opacity: 0.6; 
-  }
-  100% { 
-    width: 200px; 
-    height: 200px; 
-    opacity: 0; 
-  }
-}
-
-@keyframes loading {
-  0% { 
-    transform: translateX(-100%); 
-  }
-  100% { 
-    transform: translateX(0); 
-  }
+ion-router-outlet[hidden] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
 }
 
 .alert-wrapper {
@@ -195,20 +213,6 @@ ion-router-outlet {
 }
 
 @keyframes slideCenter {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
-
-ion-router-outlet[hidden] {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-}
-
-
