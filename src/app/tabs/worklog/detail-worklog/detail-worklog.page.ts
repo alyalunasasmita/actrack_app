@@ -18,7 +18,7 @@ export class DetailWorklogPage implements OnInit {
   constructor(
     private route: ActivatedRoute, 
     private router: Router, 
-    private actrakService: ApiService, // <-- 2. GANTI API SERVICE JADI SERVICE LOKAL
+    private actrakService: ApiService, 
     private alert: AlertsService,
     private navCtrl: NavController
   ) { }
@@ -28,21 +28,17 @@ export class DetailWorklogPage implements OnInit {
   }
 
   ionViewWillEnter(){
-    // Beri jeda tipis agar sinkronisasi storage lokal berjalan aman
     setTimeout(async () => {
       await this.loadData();
     }, 300);
   }
 
-  // 3. UBAH MENJADI ASYNC/AWAIT UNTUK MEMBACA STORAGE LOKAL
   async loadData() {
     try {
       const res = await this.actrakService.getWorklogs();
       const data = res.data || res; 
-      
-      // Cari data berdasarkan ID (menggunakan == agar toleran terhadap tipe data string/number)
+    
       this.worklog = data.find((item: any) => item.id == this.id);
-      
       if (!this.worklog) {
         this.alert.show('Data tidak ditemukan', 'error');
         this.navCtrl.navigateBack('/tabs/worklog');
@@ -60,9 +56,7 @@ export class DetailWorklogPage implements OnInit {
 
   async delete() {
     try {
-      // Panggil fungsi hapus dari database lokal internal HP
       await this.actrakService.deleteWorklog(this.id);
-      
       this.alert.show('Data berhasil dihapus', 'message');
       this.navCtrl.navigateRoot('/tabs/worklog');
     } catch (err) {
@@ -84,7 +78,7 @@ export class DetailWorklogPage implements OnInit {
     this.navCtrl.navigateForward(['/tabs/worklog']);
   }
 
-  // Fungsi perhitungan durasimu tetap sama, tidak perlu disentuh
+
   calculateDuration(): any {
     if (!this.worklog?.start || !this.worklog?.end) return '';
 

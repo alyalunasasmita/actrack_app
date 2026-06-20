@@ -21,7 +21,7 @@ export class AppComponent {
     private alertService: AlertsService,
     private platform : Platform,
     private router : Router,
-    private apiService : ApiService, // <--- 2. INJECT API SERVICE DI SINI
+    private apiService : ApiService, 
     private navCtrl : NavController,
     @Optional() private routerOutlet : IonRouterOutlet
   ) {
@@ -32,13 +32,11 @@ export class AppComponent {
     this.handleSplashScreen();
   }
 
-  // 3. DI SINI KUNCI UTAMANYA: Logika Timing Transisi HP
+  
   handleSplashScreen() {
     setTimeout(async () => {
-      // Tunggu sampai pengecekan session dan pemindahan rute SELESAI total
       await this.checkSession(); 
       
-      // Beri jeda 300ms setelah rute dipindah agar prosesor HP selesai menggambar halaman utama di background
       setTimeout(() => {
         this.fadeOut = true;  
         
@@ -47,7 +45,7 @@ export class AppComponent {
         }, 500);
       }, 300); 
 
-    }, 2000); // Durasi splash screen 2-3 detik saja sudah cukup dan aman sekarang
+    }, 2000);
   }
 
   confirm(){
@@ -74,18 +72,13 @@ export class AppComponent {
     });
   }
 
-  // 4. SESUAIKAN CARA NGECEK SESSION-NYA
+
   async checkSession() {
     try {
-      // Ambil progress dari ApiService (ini otomatis nunggu database HP ready karena sudah kita pasang await storageReady)
       const progress = await this.apiService.getProgress();
-
-      // Cek apakah ada properti username di dalam objek progress tersebut
       if (progress && progress.username && progress.username.toString().trim() !== '') {
-        // USER LAMA: Langsung banting rute ke tabs tanpa animasi biar gak kedip
         await this.navCtrl.navigateRoot('/tabs', { animated: false });
       } else {
-        // USER BARU: Lempar ke welcome page
         await this.navCtrl.navigateRoot('/welcome', { animated: false });
       }
     } catch (error) {

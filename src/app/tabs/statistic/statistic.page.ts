@@ -59,13 +59,10 @@ export class StatisticPage implements OnInit {
 
       const labels = Object.keys(grouped);
       const values = Object.values(grouped) as number[];
-
       const max = Math.max(...values);
       const index = values.indexOf(max);
-      
       const rawBestDay = labels[index];
       
-      // PERBAIKAN: Menggunakan month: 'long' agar sesuai dengan kamus bulan di getDayName
       this.bestDay = rawBestDay ? new Date(rawBestDay).toLocaleDateString('id-ID', {
         day: 'numeric',
         month: 'long',
@@ -159,7 +156,6 @@ export class StatisticPage implements OnInit {
         const month = months[parts[1]];
         const year = parseInt(parts[2], 10);
         
-        // Cek validasi proteksi jika nama bulan tidak terdeteksi di kamus
         if (month === undefined) return dateString;
 
         const dateObj = new Date(year, month, day);
